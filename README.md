@@ -1,6 +1,7 @@
 # robo-sugador
 
 robo que suga bolinhas de tenis de mesa
+Desenvolvido para a disciplina Oficina de Integração 2 - Engenharia de Computação UTFPR-CT - 2018.2
 
 ## Autores
 * Nicolas Abril
@@ -12,3 +13,7 @@ robo que suga bolinhas de tenis de mesa
 * Os diagramas do HW são em Eagle 9
 * Os diagramas do SW são em StarUML
 * Os modelos mecânicos são em SketchUp
+
+## Bibliotecas necessárias
+* RPi.GPIO
+* gpiozero
