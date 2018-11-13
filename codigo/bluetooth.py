@@ -12,3 +12,4 @@ class Bluetooth():
         data = client_sock.recv(1024)
         client_sock.close()
         server_sock.close()
+        return data
