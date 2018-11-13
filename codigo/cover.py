@@ -1,3 +1,5 @@
+import ServoMotor
+
 class Cover():
     def __init__ (inp_pin):
         self.motor = ServoMotor(inp_pin)
