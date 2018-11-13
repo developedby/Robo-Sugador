@@ -7,5 +7,5 @@ class Fan():
     def stop():
         self.motor.rotate(0)
 
-    def suck():
+    def spin():
         self.motor.rotate(1)
