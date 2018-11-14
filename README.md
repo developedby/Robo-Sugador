@@ -18,4 +18,4 @@ Desenvolvido para a disciplina Oficina de Integração 2 - Engenharia de Computa
 * RPi.GPIO
 * gpiozero
 * bluetooth
-
+* bluez (para python3 necessário instalar por pip)
