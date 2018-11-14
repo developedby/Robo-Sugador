@@ -17,7 +17,7 @@ class Ultrasound ():
         GPIO.add_event_detect(echo_pin, GPIO.RISING, callback=self.startCountingEchoTime)
         GPIO.add_event_detect(echo_pin, GPIO.FALLING, callback=self.stopCountingEchoTime)
         signal.signal(signal.SIGALRM, self.sendTrigger)
-        signal.setitimer(signnal.ITIMER_REAL, 0.1, 0.1)
+        signal.setitimer(signal.ITIMER_REAL, 0.1, 0.1)
         
     def sendTrigger (self):
         GPIO.output(self.trigger_pin, GPIO.HIGH)

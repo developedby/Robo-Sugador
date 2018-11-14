@@ -8,13 +8,13 @@ class Mover():
         self.right_wheel_actual_speed = None
         self.left_wheel_required_speed = None
         self.right_wheel_required_speed = None
-		
+
     def adjustSpeed(self):
-        
+        pass
     def moveForward(self, speed):
-	
+        pass
     def turn(self, time, speed):
-	
+        pass
     def stop(self):
         self.left_wheel.walk(0)
         self.right_wheel.walk(0)
