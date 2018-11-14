@@ -9,11 +9,13 @@ Desenvolvido para a disciplina Oficina de Integração 2 - Engenharia de Computa
 * Lucca Rawlyk
 
 ## Programas necessários
-* O código do robo é feito em python 3 para Raspberry Pi
+* O código do robo é feito em python 3 para Raspberry Pi rodando Raspbian
 * Os diagramas do HW são em Eagle 9
 * Os diagramas do SW são em StarUML
 * Os modelos mecânicos são em SketchUp
 
-## Bibliotecas necessárias
+## Bibliotecas necessarias
 * RPi.GPIO
 * gpiozero
+* bluetooth
+
