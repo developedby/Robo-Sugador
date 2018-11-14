@@ -1,11 +1,11 @@
 from dc_motor import DCMotor
 
-class Fan():
+class Fan(DCMotor):
     def __init__ (self, input1_pin, input2_pin):
-        self.motor = DCMotor(input1_pin, input2_pin)
+        DCMotor.__init__(input1_pin, input2_pin)
 
     def stop(self):
-        self.motor.rotate(0)
+        self.rotate(0)
 
     def spin(self):
-        self.motor.rotate(1)
+        self.rotate(1)
