@@ -8,7 +8,7 @@ except RuntimeError:
 from vision import Vision
 from mover import Mover
 from sucker import Sucker
-from bluetooth import Bluetooth # tem que mudar o nome pq da conflito -Nicolas
+from my_bluetooth import Bluetooth # tem que mudar o nome pq da conflito -Nicolas
 from intelligence import Intelligence
 
 
