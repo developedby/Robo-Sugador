@@ -24,7 +24,7 @@ class ServoMotor:
 
 import gpiozero
 
-class ServoMotor (self, gpiozero.AngularServo):
+class ServoMotor (gpiozero.AngularServo):
     def __init__ (self, input_pin, min_angle=-90, max_angle=90):
         super(self, ServoMotor).__init__(input_pin, min_angle, max_angle)
         self.angle = max_angle  # Fecha o servo no comeco

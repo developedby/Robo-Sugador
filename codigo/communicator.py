@@ -5,11 +5,11 @@ import threading
 
 class Communicator():
     valid_messages = set('mode:sleep', 'mode:jaguar', 'mode:manual', 'mode:patrol', 'mode:home', 'mode:shutdown',
-						 'manual:forward', 'manual:backward', 'manual:left', 'manual:right', 'manual:fan', 'manual:cover')
+                                       'manual:forward', 'manual:backward', 'manual:left', 'manual:right', 'manual:fan', 'manual:cover')
     last_command = None
     def __init__ (self, port):
         self.port = port
-        thread = threading.Thread(target=receiveCommand, name="Bluetooth communication thread")
+        thread = threading.Thread(target=self.receiveCommand, name="Bluetooth communication thread")
         thread.start()
     def receiveCommand(self):
         while (True):
@@ -20,8 +20,7 @@ class Communicator():
             data = client_socket.recv(1024) # Porque 1024 bytes? -Nicolas
             client_socket.close()
             server_socket.close() # Porque fechar o socket? Depois nao teria que abrir de volta pra ler de novo? -Nicolas
-			
-            self.last_command = decodeMessage(data)
+            self.last_command = self.decodeMessage(data)
 
     def decodeMessage(self, msg):
         if msg in self.valid_messages:
