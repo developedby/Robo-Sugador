@@ -8,7 +8,7 @@ except RuntimeError:
 from vision import Vision
 from mover import Mover
 from sucker import Sucker
-from my_bluetooth import Bluetooth # tem que mudar o nome pq da conflito -Nicolas
+from communicator import Communicator # tem que mudar o nome pq da conflito -Nicolas
 from intelligence import Intelligence
 
 
@@ -19,5 +19,5 @@ class Robot :
         self.vision = Vision()
         self.mover = Mover()
         self.sucker = Sucker()
-        self.bluetooth = Bluetooth()
+        self.communicator = Communicator()
         self.intelligence = Intelligence(self)
