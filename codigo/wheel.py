@@ -1,21 +1,20 @@
+# wheel.py - Uma roda do robo. Anda pra frente ou pra rtas com velocidade relativa à maxima
+
 import RPi.GPIO as GPIO
-import DCMotor
-import Encoder
+from dc_motor import DCMotor
+from encoder import Encoder
 
 class Wheel (DCMotor):
-    def __init__ (inp1_pin, inp2_pin, pwm_pin, encoder_pin, holes_number):
+    def __init__ (input1_pin, input2_pin, pwm_pin, encoder_pin, num_holes):
         self.pwm_pin = pwm_pin
-        super().__init__(inp1_pin, inp2_pin)
-        self.encoder = Encoder(encoder_pin, holes_number)
+        super(self, Wheel).__init__(input1_pin, input2_pin)
+        self.encoder = Encoder(encoder_pin, num_holes)
         GPIO.setup(self.pwm_pin, GPIO.OUT)
         self.pwm = GPIO.PWM(self.pwm_pin, 60)#60hz ta bom?
         self.pwm.start(0)#inicia parado
 
-    def walk(speed):
-         if(speed => 0):
-            rotate(1)
-        else:
-            rotate(-1)
-        pulse = (speed/250)*100#tem que ver a resolucao do motor, 250 é um valor aleatorio
-        self.pwm.ChangeDutyCycle(pulse)
-        #tem que fazer a funcao que le a velocidade real e manda para  o movimentador
+    # speed entre -1 e 1
+    def walk(self, speed):
+        self.rotate(speed) # Da a direção
+        self.pwm.ChangeDutyCycle(abs(speed)) # Da a velocidade (modulo)
+

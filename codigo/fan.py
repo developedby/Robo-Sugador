@@ -1,4 +1,4 @@
-import DCMotor
+from dc_motor import DCMotor
 
 class Fan():
     def __init__ (inp1_pin, inp2_pin):

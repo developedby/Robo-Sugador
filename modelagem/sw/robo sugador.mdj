@@ -2886,7 +2886,7 @@
 									"font": "Arial;13;0",
 									"left": 91,
 									"top": 909,
-									"width": 54,
+									"width": 54.44091796875,
 									"height": 13,
 									"text": "Dormindo"
 								},
@@ -3988,7 +3988,7 @@
 									"font": "Arial;13;0",
 									"left": 419,
 									"top": 909,
-									"width": 29,
+									"width": 28.42822265625,
 									"height": 13,
 									"text": "Onça"
 								},
@@ -5247,7 +5247,7 @@
 									"font": "Arial;13;0",
 									"left": 947,
 									"top": 909,
-									"width": 91,
+									"width": 89.45458984375,
 									"height": 13,
 									"text": "Controle Manual"
 								},
@@ -6006,7 +6006,7 @@
 									"font": "Arial;13;0",
 									"left": 91,
 									"top": 1301,
-									"width": 57,
+									"width": 54.44091796875,
 									"height": 13,
 									"text": "Rondando"
 								},
@@ -7260,7 +7260,7 @@
 									"font": "Arial;13;0",
 									"left": 579,
 									"top": 1301,
-									"width": 73,
+									"width": 70.29736328125,
 									"height": 13,
 									"text": "Indo pra casa"
 								},

@@ -5,16 +5,18 @@
 import RPi.GPIO as GPIO
 
 class ServoMotor:
-    def __init__ (self, input_pin):
+    def __init__ (self, input_pin, min_angle=-90, max_angle=90):
         self.input_pin = input_pins
-        self.position = None
+        self.angle = None
+        self.min_angle = min_angle
+        self.max_angle = max_angle
         GPIO.setup(self.input_pin, GPIO.OUT)
         self.pwm = GPIO.PWM(self.input_pin, 50)#20ms de periodo
         self.pwm.start(7.5)#passar uma posicao inicial?
 
-    def goToPosition (position):
-        self.position = position
-        pulse = ((self.position/180 + 1)/20)*100
+    def goToAngle (angle):
+        self.angle = angle
+        pulse = ((self.angle/180 + 1)/20)*100
         self.pwm.ChangeDutyCycle(pulse)
 '''   
      
@@ -27,5 +29,5 @@ class ServoMotor (gpiozero.AngularServo):
         super(self, ServoMotor).__init__(input_pin, min_angle, max_angle)
         self.angle = max_angle  # Fecha o servo no comeco
         
-    def goToPosition (position):
-        self.angle = position
+    def goToAngle (angle):
+        self.angle = angle
