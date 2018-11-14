@@ -9,15 +9,15 @@ class Sucker:
         self.cover = Cover(cover_pin,  cover_min_angle,  cover_max_angle)
         self.fan = Fan(fan_input1_pin,  fan_input2_pin)
         self.infrared = Infrared(infrared_pin)
-        
+
     def suck(self):
         self.cover.close()
         self.fan.spin()
-        
+
     def drop(self):
         self.cover.open()
         self.fan.stop()
-        
+
     def close(self):
         self.cover.close()
         self.fan.stop()

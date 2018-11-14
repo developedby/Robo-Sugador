@@ -14,7 +14,6 @@ class Wheel (DCMotor):
         self.pwm.start(0)#inicia parado
 
     # speed entre -1 e 1
-    def walk(self, speed):
+    def spin(self, speed):
         self.rotate(speed) # Da a direção
         self.pwm.ChangeDutyCycle(abs(speed)) # Da a velocidade (modulo)
-

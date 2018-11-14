@@ -16,5 +16,7 @@ class Mover():
     def turn(self, time, speed):
         pass
     def stop(self):
-        self.left_wheel.walk(0)
-        self.right_wheel.walk(0)
+        self.left_wheel.spin(0)
+        self.right_wheel.spin(0)
+        self.left_wheel_required_speed = 0
+        self.right_wheel_required_speed = 0
