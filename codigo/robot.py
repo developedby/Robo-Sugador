@@ -8,16 +8,14 @@ except RuntimeError:
 from vision import Vision
 from mover import Mover
 from sucker import Sucker
-from communicator import Communicator # tem que mudar o nome pq da conflito -Nicolas
+from communicator import Communicator
 from intelligence import Intelligence
-
-
 
 class Robot :
     def __init__ (self):
         GPIO.setmode(GPIO.BOARD)
-        self.vision = Vision()
-        self.mover = Mover()
-        self.sucker = Sucker()
-        self.communicator = Communicator()
+        self.vision = Vision(4, 27, 0, 1)
+        self.mover = Mover(23, 24, 18, 6, 20, 25, 8, 13, 5, 20)
+        self.sucker = Sucker(22,  10,  9,  12,  0, 180, 150,  180)#chute nos angulos de abertura e fechamento
+        self.communicator = Communicator(2)
         self.intelligence = Intelligence(self)

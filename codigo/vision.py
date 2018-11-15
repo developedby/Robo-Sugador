@@ -7,14 +7,12 @@ import cv2
 import numpy as np
 
 class Vision():
-
-    long_distance_port = 0
-    short_distance_port = 1
-
-    def __init__(self, echo_pin, trigger_pin):
+    def __init__(self, echo_pin, trigger_pin, long_distance_port, short_distance_port):
         self.long_distance_cam = Camera(port=self.long_distance_port, resolution=(1920,1080))
         self.short_distance_cam = Camera(port=self.short_distance_port, resolution=(1280,720))
         self.ultrasound = Ultrasound(echo_pin, trigger_pin)
+        self.long_distance_port = long_distance_port
+        self.short_distance_port = short_distance_port
 
     def findDistantBalls(self):
         return self.findBalls(long_distance_cam.image())
