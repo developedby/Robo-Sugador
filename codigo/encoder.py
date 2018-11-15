@@ -2,7 +2,7 @@
 # Informações sobre a licensa no arquivo LICENSE
 
 import RPi.GPIO as GPIO
-import time 
+import time
 
 class Encoder :
     def __init__ (self, read_pin, num_holes):
@@ -13,8 +13,8 @@ class Encoder :
         self.last_time_checked = time.time()
         GPIO.setup(read_pin, GPIO.IN)
         GPIO.add_event_detect(read_pin, GPIO.RISING, callback=self.atualizaVelocidade)
-        
+
     def atualizaVelocidade (self):
         current_time = time.time()
         self.angular_velocity = self.degree_per_hole/(current_time - self.last_time_checked)
-        self.last_time_checked = current_time        
+        self.last_time_checked = current_time

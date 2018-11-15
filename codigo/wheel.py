@@ -1,4 +1,4 @@
-# wheel.py - Uma roda do robo. Anda pra frente ou pra rtas com velocidade relativa à maxima
+# wheel.py - Uma roda do robo. Anda pra frente ou pra tras com velocidade relativa à maxima
 
 import RPi.GPIO as GPIO
 from dc_motor import DCMotor
