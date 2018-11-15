@@ -15,7 +15,7 @@ class Communicator():
         while (True):
             server_socket = bluetooth.BluetoothSocket( bluetooth.RFCOMM )
             server_socket.bind(("",self.port)) # Vulneravel a ataques -Nicolas
-            server_socket.listen(1)
+            server_socket.listen(self.port)
             client_socket, address = server_socket.accept() #sera? talvez nao caia a conexao nunca, dai fecha qd fechar o programa -Alefe
             data = client_socket.recv(1024) # Porque 1024 bytes? -Nicolas
             client_socket.close()
