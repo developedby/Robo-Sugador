@@ -18,13 +18,21 @@ class Mover():
 
         if self.left_wheel.encoder.angular_velocity > self.left_wheel_required_speed:
             self.left_wheel_actual_speed -= speed_adjuster_delta
+            if self.left_wheel_actual_speed <= 0:
+                self.left_wheel_actual_speed = 0
         elif self.left_wheel.encoder.angular_velocity < self.left_wheel_required_speed:
             self.left_wheel_actual_speed += speed_adjuster_delta
+            if self.left_wheel_actual_speed >= 100:
+                self.left_wheel_actual_speed = 100
 
         if self.right_wheel.encoder.angular_velocity > self.right_wheel_required_speed:
             self.right_wheel_actual_speed -= speed_adjuster_delta
+            if self.right_wheel_actual_speed <= 0:
+                self.right_wheel_actual_speed = 0
         elif self.right_wheel.encoder.angular_velocity < self.right_wheel_required_speed:
             self.right_wheel_actual_speed += speed_adjuster_delta
+            if self.right_wheel_actual_speed >= 100:
+                self.right_wheel_actual_speed = 100
 
 
     def moveForward(self, time, speed, speed_adjuster_delta):#essa velocidade eh angular? se nao for, tem que recalcular - Alefe
