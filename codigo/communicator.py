@@ -5,7 +5,7 @@ import threading
 
 class Communicator():
     valid_messages = set(('mode:sleep', 'mode:jaguar', 'mode:manual', 'mode:patrol', 'mode:home', 'mode:shutdown',
-                                       'manual:forward', 'manual:backward', 'manual:left', 'manual:right', 'manual:fan', 'manual:cover'))
+                                       'manual:forward', 'manual:backward', 'manual:left', 'manual:right', 'manual:fan', 'manual:cover', 'manual:stop'))
     last_command = None
     def __init__ (self, port):
         self.port = port
@@ -23,7 +23,6 @@ class Communicator():
             self.last_command = self.decodeMessage(data)
 
     def decodeMessage(self, msg):
-        if msg in self.valid_messages:
-            return msg
-        else:
+        if msg not in self.valid_messages:
             return None
+        return msg

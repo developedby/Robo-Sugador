@@ -13,7 +13,7 @@ class Wheel (DCMotor):
         self.pwm = GPIO.PWM(self.pwm_pin, 60)#60hz ta bom?
         self.pwm.start(0)#inicia parado
 
-    # speed entre -1 e 1
+    # speed entre -100 e 100
     def spin(self, speed):
         self.rotate(speed) # Da a direção
         self.pwm.ChangeDutyCycle(abs(speed)) # Da a velocidade (modulo)

@@ -25,26 +25,12 @@ cv2.createTrackbar('blur p2','sliders',100,200,no)
 while 1:
     ret, img = cam.read()
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-    # Ruim, muito xiado, muitos falsos positivos
-    # img = cv2.GaussianBlur(img,
-    #                       (2*cv2.getTrackbarPos('blur window','sliders')+1,
-    #                        2*cv2.getTrackbarPos('blur window','sliders')+1),
-    #                        cv2.getTrackbarPos('blur p1','sliders'))
-
     img = cv2.medianBlur(img, (2*cv2.getTrackbarPos('blur window','sliders')+1))
-
-    # Ruim, lento e não filtra o suficiente
-    # img = cv2.bilateralFilter(img,
-    #                        cv2.getTrackbarPos('blur window','sliders')+1,
-    #                        cv2.getTrackbarPos('blur p1','sliders'),
-    #                        cv2.getTrackbarPos('blur p2','sliders'))
-
     circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 90,
                   param1=cv2.getTrackbarPos('param1','sliders'),
                   param2=cv2.getTrackbarPos('param2','sliders'),
                   minRadius=2,
-                  maxRadius=100)
+                  maxRadius=150)
     print(circles)
     if not (circles is None):
         circles = np.uint16(np.around(circles))

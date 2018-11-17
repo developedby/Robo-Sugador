@@ -15,22 +15,30 @@ class Vision():
         self.short_distance_port = short_distance_port
 
     def findDistantBalls(self):
-        return self.findBalls(long_distance_cam.image())
+        return self.findBalls(long_distance_cam.image(), 4, 90, 43, 34, 2, 140)
 
     def findCloseBalls(self):
-        return self.findBalls(short_distance_cam.image())
+        return self.findBalls(short_distance_cam.image(), 5, 90, 30, 10, 2, 140)
 
-    def findBalls(self, image):
-        image = cv2.GaussianBlur(image,5)
+    def findBalls(self, image, blur, min_dist, hough1, hough2, min_radius, max_radius):
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-        image = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+        img = cv2.medianBlur(img, blur)
 
-        circles = cv2.HoughCircles(img,cv2.HOUGH_GRADIENT,1,20,
-                                    param1=50,param2=30,minRadius=0,maxRadius=0)
+        circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT,
+                      1, #dp - proporcao maluca
+                      minDist=min_dist,
+                      param1=hough1,
+                      param2=hough2,
+                      minRadius=min_radius,
+                      maxRadius=max_radius)
 
     def findRacket(self):
-        pass
+        
 
-    def getObstacleDistance():
-        self.Ultrasound.sendTrigger()
+    def getObstacleDistance(self):
         return self.ultrasound.distance
+
+    def close(self):
+        self.long_distance_cam.close()
+        self.short_distance_cam.close()
