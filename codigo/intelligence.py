@@ -3,7 +3,8 @@ import os
 
 class Intelligence:
     mode_function_dict = {'sleep': sleepMode, 'jaguar':jaguarMode, 'manual':manualMode, 'patrol':patrolMode, 'home':homeMode, 'shutdown':shutdownMode}
-
+    manual_mode_speed = 180 #ou seja, 30 voltas por minuto
+    manual_mode_duration = 1# 1 segundo fazendo o que o cara mandou
     def __init__ (self, robot):
         self.robot = robot
         self.current_state = None
@@ -49,3 +50,19 @@ class Intelligence:
 
     def executeCurrentState(self):
         mode_function_dict[current_state]()
+
+    def manualMode(self):
+        if current_manual_command == 'forward':
+            robot.mover.moveForward(manual_mode_duration, manual_mode_speed)
+        elif current_manual_command == 'backward':
+            robot.mover.moveForward(manual_mode_duration, -manual_mode_speed)
+        elif current_manual_command == 'stop':
+            robot.mover.stop()
+        elif current_manual_command == 'left':
+            robot.mover.turn(manual_mode_duration, manual_mode_speed)
+        elif current_manual_command == 'right':
+            robot.mover.turn(manual_mode_duration, -manual_mode_speed)
+        elif current_manual_command == 'fan': #tem que fazer um ultimo comando manual pra saber qd eh para ligar ou desligar ventilador
+            robot.sucker.suck()
+        elif current_manual_command == 'cover': #idem
+            robot.cover.open():

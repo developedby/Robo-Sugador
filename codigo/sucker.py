@@ -9,19 +9,19 @@ class Sucker:
         self.cover = Cover(cover_pin,  cover_min_angle,  cover_max_angle, closed_angle ,  open_angle)
         self.fan = Fan(fan_input1_pin,  fan_input2_pin)
         self.infrared = Infrared(infrared_pin)
-        self.state = "Desligado"
+        self.state = "off"
 
     def suck(self):
         self.cover.close()
         self.fan.spin()
-        self.state = "Sugando"
+        self.state = "sucking"
 
     def drop(self):
         self.cover.open()
         self.fan.stop()
-        self.state = "Bola caindo"
+        self.state = "dropping ball"
 
     def close(self):
         self.cover.close()
         self.fan.stop()
-        self.state = "Desligado"
+        self.state = "off"
