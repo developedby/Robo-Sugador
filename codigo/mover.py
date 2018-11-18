@@ -68,8 +68,11 @@ class Mover():
         if self.move_duration_timer:
             self.move_duration_timer.cancel()
 
+    # duration <= 0 -> Infinite duration
     def setTimers(self, duration):
         self.speed_adjust_timer = Timer(self.speed_adjust_frequency, self.adjustSpeed)
-        self.move_duration_timer = Timer(duration, self.stopTimers)
         self.speed_adjust_timer.start()
-        self.move_duration_timer.start()
+
+        if duration > 0:
+            self.move_duration_timer = Timer(duration, self.stopTimers)
+            self.move_duration_timer.start()

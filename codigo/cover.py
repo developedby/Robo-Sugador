@@ -5,7 +5,7 @@
 from servo_motor import ServoMotor
 
 class Cover():
-    def __init__ (self, input_pin, min_angle, max_angle,  closed_angle ,  open_angle):
+    def __init__ (self, input_pin, min_angle, max_angle, closed_angle, open_angle):
         self.motor = ServoMotor(input_pin, min_angle, max_angle)
         self.closed_angle = closed_angle
         self.open_angle = open_angle

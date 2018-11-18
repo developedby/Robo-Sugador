@@ -32,11 +32,12 @@ class Vision():
                       param2=hough2,
                       minRadius=min_radius,
                       maxRadius=max_radius)
+        return circles
 
     def findRacket(self):
         
 
-    def getObstacleDistance(self):
+    def obstacleDistance(self):
         return self.ultrasound.distance
 
     def close(self):
