@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/title_home"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation" />
+
+    <Button
+        android:id="@+id/sleeping"
+        android:layout_width="94dp"
+        android:layout_height="51dp"
+        android:text="@string/sleeping"
+        app:layout_constraintBottom_toTopOf="@+id/jaguar"
+        app:layout_constraintEnd_toEndOf="@+id/jaguar"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/jaguar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/patrolling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/patrolling"
+        app:layout_constraintBottom_toTopOf="@+id/home"
+        app:layout_constraintEnd_toEndOf="@+id/home"
+        app:layout_constraintStart_toStartOf="@+id/home"
+        app:layout_constraintTop_toBottomOf="@+id/jaguar" />
+
+    <Button
+        android:id="@+id/jaguar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/jaguar"
+        app:layout_constraintBottom_toTopOf="@+id/patrolling"
+        app:layout_constraintEnd_toEndOf="@+id/patrolling"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="@+id/patrolling"
+        app:layout_constraintTop_toBottomOf="@+id/sleeping" />
+
+    <Button
+        android:id="@+id/shutdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        android:text="@string/shutdown"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home" />
+
+    <Button
+        android:id="@+id/home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go_home"
+        app:layout_constraintBottom_toTopOf="@+id/shutdown"
+        app:layout_constraintEnd_toEndOf="@+id/shutdown"
+        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintStart_toStartOf="@+id/shutdown"
+        app:layout_constraintTop_toBottomOf="@+id/patrolling" />
+
+    <Button
+        android:id="@+id/backward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/backward"
+        app:layout_constraintBottom_toTopOf="@+id/clockwise"
+        app:layout_constraintEnd_toEndOf="@+id/clockwise"
+        app:layout_constraintStart_toStartOf="@+id/clockwise"
+        app:layout_constraintTop_toBottomOf="@+id/forward" />
+
+    <Button
+        android:id="@+id/forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/forward"
+        app:layout_constraintBottom_toTopOf="@+id/backward"
+        app:layout_constraintEnd_toEndOf="@+id/backward"
+        app:layout_constraintStart_toStartOf="@+id/backward"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/clockwise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/clockwise"
+        app:layout_constraintBottom_toTopOf="@+id/aclockwise"
+        app:layout_constraintEnd_toEndOf="@+id/aclockwise"
+        app:layout_constraintStart_toStartOf="@+id/aclockwise"
+        app:layout_constraintTop_toBottomOf="@+id/backward" />
+
+    <Button
+        android:id="@+id/aclockwise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/anti_clockwise"
+        app:layout_constraintBottom_toTopOf="@+id/stop"
+        app:layout_constraintEnd_toEndOf="@+id/stop"
+        app:layout_constraintStart_toStartOf="@+id/stop"
+        app:layout_constraintTop_toBottomOf="@+id/clockwise" />
+
+    <Button
+        android:id="@+id/stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stop"
+        app:layout_constraintBottom_toTopOf="@+id/fan"
+        app:layout_constraintEnd_toEndOf="@+id/fan"
+        app:layout_constraintStart_toStartOf="@+id/fan"
+        app:layout_constraintTop_toBottomOf="@+id/aclockwise" />
+
+    <Button
+        android:id="@+id/fan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fan"
+        app:layout_constraintBottom_toTopOf="@+id/cover"
+        app:layout_constraintEnd_toEndOf="@+id/cover"
+        app:layout_constraintStart_toStartOf="@+id/cover"
+        app:layout_constraintTop_toBottomOf="@+id/stop" />
+
+    <Button
+        android:id="@+id/cover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:text="@string/cover"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fan" />
+
+</android.support.constraint.ConstraintLayout>

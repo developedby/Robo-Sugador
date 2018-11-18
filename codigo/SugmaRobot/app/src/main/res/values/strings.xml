@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">SugmaRobot</string>
+    <string name="title_home">Modes</string>
+    <string name="title_dashboard">Manual</string>
+    <string name="sleeping">Sleeping</string>
+    <string name="patroling">Patroling</string>
+    <string name="jaguar">Jaguar</string>
+    <string name="shutdown">Shutdown</string>
+    <string name="go_home">Go Home</string>
+    <string name="backward">backward</string>
+    <string name="forward">Forward</string>
+    <string name="clockwise">clockwise</string>
+    <string name="anti_clockwise">anti-clockwise</string>
+    <string name="stop">stop</string>
+    <string name="fan">fan</string>
+    <string name="cover">cover</string>
+    <string name="patrolling">patrolling</string>
+</resources>
