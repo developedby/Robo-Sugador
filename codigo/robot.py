@@ -12,10 +12,15 @@ from communicator import Communicator
 from intelligence import Intelligence
 
 class Robot :
-    def __init__ (self):
+    def __init__ (self, echo_pin, trigger_pin, long_distance_cam_port, short_distance_cam_port,
+                        input1_left_wheel_pin, input2_left_wheel_pin, pwm_left_wheel_pin, encoder_left_wheel_pin, num_encoder_left_wheel_holes,
+                        input1_right_wheel_pin, input2_right_wheel_pin, pwm_right_wheel_pin, encoder_right_wheel_pin, num_encoder_right_wheel_holes, speed_adjust_delta,
+                        infrared_pin, fan_input1_pin, fan_input2_pin, cover_pin, servo_min_angle, servo_max_angle, cover_closed_angle, cover_open_angle,
+                        communicator_port):
         GPIO.setmode(GPIO.BOARD)
-        self.vision = Vision(4, 27, 0, 1)
-        self.mover = Mover(23, 24, 18, 6, 20, 25, 8, 13, 5, 20)
-        self.sucker = Sucker(22,  10,  9,  12,  0, 180, 150,  180)#chute nos angulos de abertura e fechamento
-        self.communicator = Communicator(2)
+        self.vision = Vision(echo_pin, trigger_pin, long_distance_cam_port, short_distance_cam_port)
+        self.mover = Mover(input1_left_wheel_pin, input2_left_wheel_pin, pwm_left_wheel_pin, encoder_left_wheel_pin, num_encoder_left_wheel_holes,
+        input1_right_wheel_pin, input2_right_wheel_pin, pwm_right_wheel_pin, encoder_right_wheel_pin, num_encoder_right_wheel_holes, speed_adjust_delta)
+        self.sucker = Sucker(infrared_pin, fan_input1_pin, fan_input2_pin, cover_pin, servo_min_angle, servo_max_angle, cover_closed_angle, cover_open_angle)
+        self.communicator = Communicator(communicator_port)
         self.intelligence = Intelligence(self)
