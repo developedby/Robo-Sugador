@@ -10,8 +10,9 @@ def no():
 
 cam = cv2.VideoCapture()
 cam.open(0)
-cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1000)
-cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1000)
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, 500)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 500)
+cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 # cam.set(cv2.CAP_PROP_FRAME_COUNT, 1)
 
 cv2.namedWindow('sliders')
@@ -48,7 +49,7 @@ while 1:
                   param2=cv2.getTrackbarPos('param2','sliders'),
                   minRadius=2,
                   maxRadius=150)
-    #print(circles)
+    print(circles)
     if not (circles is None):
         circles = np.uint16(np.around(circles))
         for i in circles[0,:]:
