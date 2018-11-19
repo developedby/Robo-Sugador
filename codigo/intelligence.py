@@ -164,7 +164,7 @@ class Intelligence:
     def shutdownMode(self):
         self.robot.sucker.close()
         self.robot.mover.stop()
-        os.system('systemctl poweroff')
+        system('systemctl poweroff')
 
     def executeCurrentState(self):
         if self.robot.sucker.infrared.obstacle:
