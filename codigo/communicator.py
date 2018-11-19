@@ -12,7 +12,7 @@ class Communicator():
         thread = threading.Thread(target=self.receiveCommand, name="Bluetooth communication thread")
         thread.start()
     def receiveCommand(self):
-        while (True):
+        while True:
             server_socket = bluetooth.BluetoothSocket( bluetooth.RFCOMM )
             server_socket.bind(("",self.port)) # Vulneravel a ataques -Nicolas
             server_socket.listen(self.port)

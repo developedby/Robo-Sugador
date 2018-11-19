@@ -78,7 +78,7 @@ class Intelligence:
             self.robot.mover.moveForward(self.move_duration, self.forward_speed)
 
     def patrolMode(self):
-        if self.current_substate = 'idle':
+        if self.current_substate == 'idle':
             if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
                 self.current_substate = 'obstacle'
             self.robot.mover.moveForward(self.move_duration, self.forward_speed)
@@ -86,13 +86,13 @@ class Intelligence:
             balls = self.robot.vision.findDistantBalls()
             if len(balls) > 0:
                 self.current_substate = 'chasing'
-        elif self.current_substate = 'chasing':
+        elif self.current_substate == 'chasing':
             chaseBall()
-        elif self.current_substate = 'obstacle':
+        elif self.current_substate == 'obstacle':
             self.avoidObstacle()
 
     def jaguarMode(self):
-        if self.current_substate = 'idle':
+        if self.current_substate == 'idle':
             self.robot.mover.stop()
             self.robot.sucker.close()
             if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
@@ -100,9 +100,9 @@ class Intelligence:
             balls = self.robot.vision.findDistantBalls()
             if len(balls) > 0:
                 self.current_substate = 'chasing'
-        elif self.current_substate = 'chasing':
+        elif self.current_substate == 'chasing':
             chaseBall()
-        elif self.current_substate = 'obstacle':
+        elif self.current_substate == 'obstacle':
             self.avoidObstacle()
 
     def chaseBall(self):
@@ -182,4 +182,4 @@ class Intelligence:
         elif current_manual_command == 'fan': #tem que fazer um ultimo comando manual pra saber qd eh para ligar ou desligar ventilador
             self.robot.sucker.suck()
         elif current_manual_command == 'cover': #idem
-            self.robot.cover.open():
+            self.robot.cover.open()
