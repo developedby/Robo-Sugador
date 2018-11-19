@@ -8,8 +8,8 @@ import numpy as np
 
 class Vision():
     def __init__(self, echo_pin, trigger_pin, long_distance_port, short_distance_port):
-        self.long_distance_cam = Camera(port=self.long_distance_port, resolution=(1920,1080))
-        self.short_distance_cam = Camera(port=self.short_distance_port, resolution=(1280,720))
+        self.long_distance_cam = Camera(port=self.long_distance_port, resolution={'width':1280, 'height':720})
+        self.short_distance_cam = Camera(port=self.short_distance_port, resolution={'width':854, 'height':480})
         self.ultrasound = Ultrasound(echo_pin, trigger_pin)
         self.long_distance_port = long_distance_port
         self.short_distance_port = short_distance_port
@@ -32,10 +32,29 @@ class Vision():
                       param2=hough2,
                       minRadius=min_radius,
                       maxRadius=max_radius)
+
         return circles
 
     def findRacket(self):
-        
+        img = long_distance_cam.image()
+        img = cv2.GaussianBlur(img, (9, 9), 0)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        img = cv2.inRange(img, (150, 50, 100),(200, 255, 255))
+        img = cv2.erode(img, (5,5))
+        img = cv2.dilate(img, (5,5))
+
+        contours = cv2.findContours(img.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours = contours[1]
+
+        center = None
+        if len(contours) > 0:
+            c = max(contours, key=cv2.contourArea)
+            ((x, y), radius) = cv2.minEnclosingCircle(c)
+            M = cv2.moments(c)
+            if M["m00"] and M["m00"]:
+                center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+
+        return center
 
     def obstacleDistance(self):
         return self.ultrasound.distance

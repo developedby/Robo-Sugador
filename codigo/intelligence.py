@@ -1,11 +1,16 @@
 from robot import Robot
 import os
+import math
 
 class Intelligence:
     mode_function_dict = {'sleep': sleepMode, 'jaguar':jaguarMode, 'manual':manualMode, 'patrol':patrolMode, 'home':homeMode, 'shutdown':shutdownMode}
     manual_mode_speed = 180 #ou seja, 30 voltas por minuto
     manual_mode_duration = 0 # 0 significa que vai ficar executando o comando ate mandar parar ou trocar de comando
-    min_obstacle_distance = 0.5 # Nao chega mais perto de obstaculos que essa distancia (tem que setar pra distancia max que a camera de perto enxerga) 
+    min_obstacle_distance = 0.5 # Nao chega mais perto de obstaculos que essa distancia (tem que setar pra distancia max que a camera de perto enxerga)
+    chased_distant_ball = None
+    move_duration = 0.8
+    turn_speed = 90
+    forward_speed = 135
     def __init__ (self, robot):
         self.robot = robot
         self.current_state = 'sleep'
@@ -14,11 +19,12 @@ class Intelligence:
         self.mainLoop()
 
     def mainLoop(self):
-        if thereIsNewCommand():
-            self.processNewCommand()
-            self.robot.mover.stop()
-            self.robot.sucker.close()
-        executeCurrentState()
+        while 1:
+            if thereIsNewCommand():
+                self.processNewCommand()
+                self.robot.mover.stop()
+                self.robot.sucker.close()
+            executeCurrentState()
 
     def thereIsNewCommand(self):
         if self.robot.communicator.last_command == None:
@@ -51,21 +57,55 @@ class Intelligence:
             balls = self.robot.vision.findDistantBalls()
             if len(balls) > 0:
                 self.current_substate = 'chasing'
-
         elif self.current_substate = 'chasing':
             close_balls = self.robot.vision.findCloseBalls()
             if len(close_balls > 0):
-                suckCloseBall(close_balls) #TODO
-            elif self.robot.vision.obstacleDistance() < self.min_obstacle_distance: 
+                suckCloseBall(close_balls)
+            elif self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
                 self.current_substate = 'obstacle'
             else:
                 distant_balls = self.robot.vision.findDistantBalls()
                 if len(distant_balls) > 0:
-                    chaseDistantBall(distant_balls) #TODO
+                    chaseDistantBall(distant_balls)
                 else:
                     self.current_substate = 'stopped'
-
+        elif self.current_substate = 'obstacle':
+            self.avoidObstacle() #TODO
         pass
+
+    def distance(coord1, coord2):
+        return math.hypot(coord2[0]-coord1[0], coord2[1]-coord1[1])
+
+    def suckCloseBall(self, close_balls):
+        self.robot.sucker.suck()
+        if close_balls[0][0] < (0.25+(0.15*close_balls[0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
+            self.robot.mover.turn(self.move_duration, self.turn_speed)
+        elif close_balls[0][0] > (0.75-(0.15*close_balls[0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
+            self.robot.mover.turn(self.move_duration, -self.turn_speed)
+        else:
+            self.robot.mover.moveForward(self.move_duration, self.forward_speed)
+
+    def chaseDistantBall(self, distant_balls):
+        if not chased_distant_ball:
+            max_radius = -1
+            for c in distant_balls:
+                if c[2] > max_radius:
+                    max_radius = c[2]
+                    chased_distant_ball = c
+        else:
+            min_dist = math.inf
+            for c in distant_balls:
+                if distance(c, chased_distant_ball) < min_dist:
+                    min_dist = distance(c, chased_distant_ball)
+                    circle = c
+                chased_distant_ball = circle
+
+        if chased_distant_ball[0] < 0.4*self.robot.vision.long_distance_cam.resolution['width']:
+            self.robot.mover.turn(self.move_duration, self.turn_speed)
+        elif chased_distant_ball[0] > 0.6*self.robot.vision.long_distance_cam.resolution['width']:
+            self.robot.mover.turn(self.move_duration, -self.turn_speed)
+        else:
+            self.robot.mover.moveForward(self.move_duration, self.forward_speed)
 
     def shutdownMode(self):
         self.robot.sucker.close()
@@ -77,16 +117,16 @@ class Intelligence:
 
     def manualMode(self):
         if current_manual_command == 'forward':
-            robot.mover.moveForward(manual_mode_duration, manual_mode_speed)
+            self.robot.mover.moveForward(manual_mode_duration, manual_mode_speed)
         elif current_manual_command == 'backward':
-            robot.mover.moveForward(manual_mode_duration, -manual_mode_speed)
+            self.robot.mover.moveForward(manual_mode_duration, -manual_mode_speed)
         elif current_manual_command == 'stop':
-            robot.mover.stop()
+            self.robot.mover.stop()
         elif current_manual_command == 'left':
-            robot.mover.turn(manual_mode_duration, manual_mode_speed)
+            self.robot.mover.turn(manual_mode_duration, manual_mode_speed)
         elif current_manual_command == 'right':
-            robot.mover.turn(manual_mode_duration, -manual_mode_speed)
+            self.robot.mover.turn(manual_mode_duration, -manual_mode_speed)
         elif current_manual_command == 'fan': #tem que fazer um ultimo comando manual pra saber qd eh para ligar ou desligar ventilador
-            robot.sucker.suck()
+            self.robot.sucker.suck()
         elif current_manual_command == 'cover': #idem
-            robot.cover.open():
+            self.robot.cover.open():

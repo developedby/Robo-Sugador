@@ -9,6 +9,7 @@ def clamp(num, min_value, max_value):
 
 class Mover():
     sign = lambda x: x and (1, -1)[x < 0]
+    speed_adjust_frequency = 0.25
 
     def __init__ (self, input1_a_pin, input2_a_pin, pwm_a_pin, encoder_a_pin, num_a_holes, input1_b_pin, input2_b_pin, pwm_b_pin, encoder_b_pin, num_b_holes, speed_adjust_delta):
         self.left_wheel = Wheel(input1_a_pin, input2_a_pin, pwm_a_pin, encoder_a_pin, num_a_holes)
@@ -48,7 +49,7 @@ class Mover():
         stopTimers()
         setTimers(duration)
 
-    def turn(self, duration, speed, speed_adjuster_delta): # usando sentido positivo: antihorario
+    def turn(self, duration, speed): # usando sentido positivo: antihorario
         self.left_wheel_required_speed = -speed
         self.right_wheel_required_speed = speed
 

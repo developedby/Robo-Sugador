@@ -5,6 +5,7 @@ import cv2
 
 class Camera:
     def __init__ (self, port, resolution):
+            self.resolution = resolution
             self.port = port
             self.capture = cv2.VideoCapture(port)
             if not self.capture.isOpened():
