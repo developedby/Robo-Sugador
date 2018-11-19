@@ -35,15 +35,16 @@ class Intelligence:
             return True
 
     def processNewCommand(self):
-            split_msg =  self.robot.communicator.last_command.split(msg, ':')
+        if self.robot.communicator.last_command:
+            split_msg =  self.robot.communicator.last_command.split(':')
             if split_msg[0] == 'mode':
                 self.current_state = split_msg[1]
                 self.current_manual_command = None
             elif split_msg[0] == 'manual' and self.current_state == 'manual':
                 self.current_manual_command = split_msg[1]
-            self.robot.communicator.last_command = None
-            self.current_substate = 'idle'
-            self.chased_distant_ball = None
+        self.robot.communicator.last_command = None
+        self.current_substate = 'idle'
+        self.chased_distant_ball = None
 
     def sleepMode(self):
         self.robot.sucker.close()
