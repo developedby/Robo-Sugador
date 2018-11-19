@@ -16,10 +16,9 @@ class Intelligence:
         self.current_state = 'sleep'
         self.current_substate = 'stopped'
         self.current_manual_command = None
-        self.mainLoop()
 
     def mainLoop(self):
-        while 1:
+        while True:
             if thereIsNewCommand():
                 self.processNewCommand()
                 self.robot.mover.stop()
