@@ -36,16 +36,20 @@ class Communicator():
         while True:
             print(threading.current_thread())
             try:
-                while True:
-                    data = self.client_socket.recv(1024)
-                    if len(data) == 0:
-                        break
+                #while True:
+                data = self.client_socket.recv(1024)
+                #    if len(data) == 0:
+                #        break
+                self.last_command = self.decodeMessage(data)
+                print(data.decode('utf-8'), self.last_command)
             except IOError:
+                print("erro de envio")
                 self.connected = False
                 self.connect()
-            self.last_command = self.decodeMessage(data)
+            
 
     def decodeMessage(self, msg):
+        msg = msg.decode('utf-8')
         if msg not in self.valid_messages:
             return None
         return msg
