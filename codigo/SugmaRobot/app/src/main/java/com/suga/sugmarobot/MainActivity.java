@@ -119,90 +119,103 @@ public class MainActivity extends AppCompatActivity {
         mBtnSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage("mode:sleep");
+                new Sender().execute("mode:sleep");
             }
         });
 
         mBtnJaguar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage("mode:jaguar");
+                new Sender().execute("mode:jaguar");
             }
         });
 
         mBtnPatrol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage("mode:patrol");
+                new Sender().execute("mode:patrol");
             }
         });
 
         mBtnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage("mode:home");
+                new Sender().execute("mode:home");
             }
         });
 
         mBtnShutdown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage("mode:shutdown");
+                new Sender().execute("mode:shutdown");
             }
         });
 
         mBtnForward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage("manual:forward");
+                new Sender().execute("manual:forward");
             }
         });
 
         mBtnBackward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage("manual:backward");
+                new Sender().execute("manual:backward");
             }
         });
 
         mBtnClockwise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage("manual:right");
+                new Sender().execute("manual:right");
             }
         });
 
         mBtnAclockwise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage("manual:left");
+                new Sender().execute("manual:left");
             }
         });
 
         mBtnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage("manual:stop");
+                new Sender().execute("manual:stop");
             }
         });
 
         mBtnFan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage("mode:fan");
+                new Sender().execute("manual:fan");
             }
         });
 
         mBtnCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage("mode:cover");
+                new Sender().execute("manual:cover");
             }
         });
     }
+    class Sender extends AsyncTask<String, Integer, String> {
+        @Override
+        protected String doInBackground(String... s) {
+            if (btSocket != null) {
+                try {
+                    btSocket.getOutputStream().write(s[0].getBytes());
+                } catch (IOException e) {
+                    msg("Error");
+                }
+            }
+            return "enviado ou nao";
+        }
+    }
 
-    private void sendMessage(String s)
-    {
+
+    private void sendMessage(String s) {
         if (btSocket!=null)
         {
             try
