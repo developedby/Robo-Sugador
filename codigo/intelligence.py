@@ -50,28 +50,49 @@ class Intelligence:
         pass
 
     def patrolMode(self):
-        pass
-
-    def jaguarMode(self): #TODO - logica menos simplista
-        if self.current_substate = 'stopped':
+        if self.current_substate = 'idle':
+            if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+                self.current_substate = 'obstacle'
+            self.robot.mover.moveForward(self.move_duration, self.forward_speed)
+            self.robot.sucker.close()
             balls = self.robot.vision.findDistantBalls()
             if len(balls) > 0:
                 self.current_substate = 'chasing'
         elif self.current_substate = 'chasing':
-            close_balls = self.robot.vision.findCloseBalls()
-            if len(close_balls > 0):
-                suckCloseBall(close_balls)
-            elif self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
-                self.current_substate = 'obstacle'
-            else:
-                distant_balls = self.robot.vision.findDistantBalls()
-                if len(distant_balls) > 0:
-                    chaseDistantBall(distant_balls)
-                else:
-                    self.current_substate = 'stopped'
+            chaseBall()
         elif self.current_substate = 'obstacle':
-            self.avoidObstacle() #TODO
-        pass
+            self.avoidObstacle()
+
+    def jaguarMode(self):
+        if self.current_substate = 'idle':
+            self.robot.mover.stop()
+            self.robot.sucker.close()
+            if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+                self.current_substate = 'obstacle'
+            balls = self.robot.vision.findDistantBalls()
+            if len(balls) > 0:
+                self.current_substate = 'chasing'
+        elif self.current_substate = 'chasing':
+            chaseBall()
+        elif self.current_substate = 'obstacle':
+            self.avoidObstacle()
+
+    def chaseBall(self):
+        close_balls = self.robot.vision.findCloseBalls()
+        if len(close_balls > 0):
+            suckCloseBall(close_balls)
+        elif self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+            self.current_substate = 'obstacle'
+        else:
+            distant_balls = self.robot.vision.findDistantBalls()
+            if len(distant_balls) > 0:
+                chaseDistantBall(distant_balls)
+            else:
+                self.current_substate = 'idle'
+
+    def avoidObstacle(self):
+        while self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+            self.robot.mover.turn(self.move_duration, self.turn_speed)
 
     def distance(coord1, coord2):
         return math.hypot(coord2[0]-coord1[0], coord2[1]-coord1[1])
@@ -113,6 +134,11 @@ class Intelligence:
         os.system('systemctl poweroff')
 
     def executeCurrentState(self):
+        if self.robot.sucker.infrared.obstacle:
+            self.robot.mover.stop()
+            self.robot.sucker.drop()
+            sleep(1)
+            self.robot.sucker.close()
         mode_function_dict[current_state]()
 
     def manualMode(self):

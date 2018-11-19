@@ -10,9 +10,6 @@ class Infrared():
 
     def setObstacle (self):
         self.obstacle = True
-  
+
     def clearObstacle (self):
         self.obstacle = False
-
-    def isThereObstacle (self):
-        return self.obstacle
