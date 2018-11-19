@@ -38,10 +38,8 @@ class Robot :
                   servo_min_angle,
                   servo_max_angle,
                   cover_closed_angle,
-                  cover_open_angle,
-                    # Communicator
-                  communicator_port):
-                  
+                  cover_open_angle):
+
         GPIO.setmode(GPIO.BOARD)
         self.vision = Vision(ultrasound_echo_pin,
                              ultrasound_trigger_pin,
@@ -66,5 +64,5 @@ class Robot :
                              servo_max_angle,
                              cover_closed_angle,
                              cover_open_angle)
-        self.communicator = Communicator(communicator_port)
+        self.communicator = Communicator()
         self.intelligence = Intelligence(self)

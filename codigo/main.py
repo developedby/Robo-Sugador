@@ -26,7 +26,6 @@ servo_min_angle = 0
 servo_max_angle = 180
 cover_closed_angle = 150 #chute nos angulos de abertura e fechamento
 cover_open_angle = 180
-communicator_port = 49777
 
 the_robot = Robot(  # Vision
                     ultrasound_echo_pin,
@@ -53,7 +52,5 @@ the_robot = Robot(  # Vision
                     servo_min_angle,
                     servo_max_angle,
                     cover_closed_angle,
-                    cover_open_angle,
-                    # Communicator
-                    communicator_port)
+                    cover_open_angle)
 the_robot.intelligence.mainLoop()

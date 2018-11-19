@@ -4,22 +4,41 @@ import bluetooth
 import threading
 
 class Communicator():
+    uuid = "777777-7777-7777-7777-777777777770"
     valid_messages = set(('mode:sleep', 'mode:jaguar', 'mode:manual', 'mode:patrol', 'mode:home', 'mode:shutdown',
                                        'manual:forward', 'manual:backward', 'manual:left', 'manual:right', 'manual:fan', 'manual:cover', 'manual:stop'))
     last_command = None
-    def __init__ (self, port):
-        self.port = port
+    connected = False
+
+    def __init__ (self):
+        self.connect()
         thread = threading.Thread(target=self.receiveCommand, name="Bluetooth communication thread")
         thread.start()
+
+    def connect(self):
+        self.server_socket = bluetooth.BluetoothSocket( bluetooth.RFCOMM )
+        self.server_socket.bind(("",PORT_ANY)) # Vulneravel a ataques -Nicolas
+        self.server_socket.listen(1)
+        self.port = self.server_sock.getsockname()[1]
+        bluetooth.advertise_service( self.server_socket, "Robo Sugador",
+                   service_id = self.uuid,
+                   service_classes = [ uuid, SERIAL_PORT_CLASS ],
+                   profiles = [ SERIAL_PORT_PROFILE ],
+#                   protocols = [ OBEX_UUID ]
+                    )
+        self.client_sock, self.client_info = server_sock.accept()
+        self.connect = True
+
     def receiveCommand(self):
         while True:
-            server_socket = bluetooth.BluetoothSocket( bluetooth.RFCOMM )
-            server_socket.bind(("",self.port)) # Vulneravel a ataques -Nicolas
-            server_socket.listen(self.port)
-            client_socket, address = server_socket.accept() #sera? talvez nao caia a conexao nunca, dai fecha qd fechar o programa -Alefe
-            data = client_socket.recv(1024) # Porque 1024 bytes? -Nicolas
-            client_socket.close()
-            server_socket.close() # Porque fechar o socket? Depois nao teria que abrir de volta pra ler de novo? -Nicolas
+            try:
+                while True:
+                    data = client_sock.recv(1024)
+                    if len(data) == 0:
+                        break
+            except IOError:
+                self.connected = False
+                self.connect()
             self.last_command = self.decodeMessage(data)
 
     def decodeMessage(self, msg):
