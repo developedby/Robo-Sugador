@@ -15,16 +15,14 @@ class Vision():
         self.short_distance_port = short_distance_port
 
     def findDistantBalls(self):
-        return self.findBalls(long_distance_cam.image(), 4, 90, 43, 34, 2, 140)
+        return self.findBalls(self.long_distance_cam.image(), 4, 90, 43, 34, 2, 140)
 
     def findCloseBalls(self):
-        return self.findBalls(short_distance_cam.image(), 5, 90, 30, 10, 2, 140)
+        return self.findBalls(self.short_distance_cam.image(), 5, 90, 30, 10, 2, 140)
 
     def findBalls(self, image, blur, min_dist, hough1, hough2, min_radius, max_radius):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
         img = cv2.medianBlur(img, blur)
-
         circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT,
                       1, #dp - proporcao maluca
                       minDist=min_dist,
@@ -32,7 +30,6 @@ class Vision():
                       param2=hough2,
                       minRadius=min_radius,
                       maxRadius=max_radius)
-
         return circles
 
     def findRacket(self):
@@ -53,7 +50,6 @@ class Vision():
             M = cv2.moments(c)
             if M["m00"] and M["m00"]:
                 center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
-
         return center
 
     def obstacleDistance(self):

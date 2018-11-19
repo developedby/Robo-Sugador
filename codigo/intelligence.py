@@ -47,7 +47,36 @@ class Intelligence:
         self.vision.close()
 
     def homeMode(self):
-        pass
+        racket = self.robot.vision.findRacket(self.robot.vision.long_distance_cam.image())
+        if self.current_substate == 'idle':
+            if racket:
+                if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+                    self.robot.mover.stop()
+                    self.robot.sucker.close()
+                else:
+                    self.current_substate = 'chasing'
+            else:
+                if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+                    self.current_substate = 'obstacle'
+        elif self.current_substate == 'chasing':
+            if racket:
+                chaseRacket(racket)
+            else:
+                self.current_substate = 'idle'
+        elif self.current_substate == 'obstacle':
+            if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+                self.current_substate = 'obstacle'
+                self.avoidObstacle()
+            else:
+                self.current_substate = 'idle'
+
+    def chaseRacket(self, racket):
+        if racket[0] < 0.4*self.robot.vision.long_distance_cam.resolution['width']:
+            self.robot.mover.turn(self.move_duration, self.turn_speed)
+        elif racket[0] > 0.6*self.robot.vision.long_distance_cam.resolution['width']:
+            self.robot.mover.turn(self.move_duration, -self.turn_speed)
+        else:
+            self.robot.mover.moveForward(self.move_duration, self.forward_speed)
 
     def patrolMode(self):
         if self.current_substate = 'idle':
@@ -120,7 +149,6 @@ class Intelligence:
                     min_dist = distance(c, chased_distant_ball)
                     circle = c
                 chased_distant_ball = circle
-
         if chased_distant_ball[0] < 0.4*self.robot.vision.long_distance_cam.resolution['width']:
             self.robot.mover.turn(self.move_duration, self.turn_speed)
         elif chased_distant_ball[0] > 0.6*self.robot.vision.long_distance_cam.resolution['width']:
