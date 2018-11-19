@@ -1,15 +1,10 @@
 # robot.py - Representa o robo como um todo. So criar e ele ja funciona
 
-try:
-    import RPi.GPIO as GPIO
-except RuntimeError:
-    print("Error importing RPi.GPIO!  This is probably because you need superuser privileges.  You can achieve this by using 'sudo' to run your script")
 
 from vision import Vision
 from mover import Mover
 from sucker import Sucker
 from communicator import Communicator
-from intelligence import Intelligence
 
 class Robot :
     def __init__ (self,
@@ -39,8 +34,6 @@ class Robot :
                   servo_max_angle,
                   cover_closed_angle,
                   cover_open_angle):
-
-        GPIO.setmode(GPIO.BOARD)
         self.vision = Vision(ultrasound_echo_pin,
                              ultrasound_trigger_pin,
                              long_distance_cam_port,
@@ -66,3 +59,5 @@ class Robot :
                              cover_open_angle)
         self.communicator = Communicator()
         self.intelligence = Intelligence(self)
+
+from intelligence import Intelligence

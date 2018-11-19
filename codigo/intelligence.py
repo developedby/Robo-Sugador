@@ -1,9 +1,8 @@
-from robot import Robot
 import os
 import math
 
 class Intelligence:
-    mode_function_dict = {'sleep': sleepMode, 'jaguar':jaguarMode, 'manual':manualMode, 'patrol':patrolMode, 'home':homeMode, 'shutdown':shutdownMode}
+    mode_function_dict = {'sleep': lambda: sleepMode(), 'jaguar':lambda:jaguarMode(), 'manual':lambda:manualMode(), 'patrol':lambda:patrolMode(), 'home':lambda:homeMode(), 'shutdown':lambda:shutdownMode()}
     manual_mode_speed = 180 #ou seja, 30 voltas por minuto
     manual_mode_duration = 0 # 0 significa que vai ficar executando o comando ate mandar parar ou trocar de comando
     min_obstacle_distance = 0.5 # Nao chega mais perto de obstaculos que essa distancia (tem que setar pra distancia max que a camera de perto enxerga)
@@ -183,3 +182,5 @@ class Intelligence:
             self.robot.sucker.suck()
         elif current_manual_command == 'cover': #idem
             self.robot.cover.open()
+
+from robot import Robot

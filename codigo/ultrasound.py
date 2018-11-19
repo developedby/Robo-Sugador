@@ -11,7 +11,6 @@ class Ultrasound ():
         self.distance = None
         self.echo_pin = echo_pin
         self.trigger_pin = trigger_pin
-        GPIO.setmode(GPIO.BOARD)
         GPIO.setup(trigger_pin, GPIO.OUT)
         GPIO.setup(echo_pin, GPIO.IN)
         GPIO.add_event_detect(echo_pin, GPIO.RISING, callback=self.startCountingEchoTime)

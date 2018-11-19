@@ -1,6 +1,13 @@
 # main.py - Codigo do robo que suga bolinhas
 # Informações sobre a licensa no arquivo LICENSE
 
+try:
+    import RPi.GPIO as GPIO
+except RuntimeError:
+    print("Error importing RPi.GPIO!  This is probably because you need superuser privileges.  You can achieve this by using 'sudo' to run your script")
+
+GPIO.setmode(GPIO.BOARD)
+
 from robot import Robot
 
 ultrasound_echo_pin = 4
@@ -26,6 +33,8 @@ servo_min_angle = 0
 servo_max_angle = 180
 cover_closed_angle = 150 #chute nos angulos de abertura e fechamento
 cover_open_angle = 180
+
+
 
 the_robot = Robot(  # Vision
                     ultrasound_echo_pin,
