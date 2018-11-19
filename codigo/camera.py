@@ -7,11 +7,12 @@ class Camera:
     def __init__ (self, port, resolution):
             self.resolution = resolution
             self.port = port
-            self.capture = cv2.VideoCapture(port)
+            self.capture = cv2.VideoCapture()
+            self.capture.open(port)
             if not self.capture.isOpened():
-                print("Warning - camera " + port + " not opened correctly")
-            self.capture.set(cv2.CV_CAP_PROP_FRAME_WIDTH, resolution['width'])
-            self.capture.set(cv2.CV_CAP_PROP_FRAME_HEIGHT, resolution['height'])
+                print("Warning - camera " + str(port) + " not opened correctly")
+            self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, resolution['width'])
+            self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, resolution['height'])
 
     def image (self):
         if not self.capture.isOpened():

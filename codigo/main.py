@@ -6,7 +6,7 @@ try:
 except RuntimeError:
     print("Error importing RPi.GPIO!  This is probably because you need superuser privileges.  You can achieve this by using 'sudo' to run your script")
 
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 
 from robot import Robot
 
@@ -33,7 +33,7 @@ servo_min_angle = 0
 servo_max_angle = 180
 cover_closed_angle = 150 #chute nos angulos de abertura e fechamento
 cover_open_angle = 180
-
+servo_initial_angle = (cover_closed_angle + cover_open_angle)/2
 
 
 the_robot = Robot(  # Vision
@@ -58,6 +58,7 @@ the_robot = Robot(  # Vision
                     fan_input1_pin,
                     fan_input2_pin,
                     cover_pin,
+                    servo_initial_angle,
                     servo_min_angle,
                     servo_max_angle,
                     cover_closed_angle,

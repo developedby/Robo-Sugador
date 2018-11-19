@@ -46,18 +46,18 @@ class Mover():
         self.left_wheel_required_speed = speed
         self.right_wheel_required_speed = speed
 
-        stopTimers()
-        setTimers(duration)
+        self.stopTimers()
+        self.setTimers(duration)
 
     def turn(self, duration, speed): # usando sentido positivo: antihorario
         self.left_wheel_required_speed = -speed
         self.right_wheel_required_speed = speed
 
-        stopTimers()
-        setTimers(duration)
+        self.stopTimers()
+        self.setTimers(duration)
 
     def stop(self):
-        stopTimers()
+        self.stopTimers()
         self.left_wheel.spin(0)
         self.right_wheel.spin(0)
         self.left_wheel_required_speed = 0

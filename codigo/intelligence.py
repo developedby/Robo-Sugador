@@ -1,8 +1,10 @@
-import os
+from os import system
 import math
+import threading
+from time import sleep
 
 class Intelligence:
-    mode_function_dict = {'sleep': lambda: sleepMode(), 'jaguar':lambda:jaguarMode(), 'manual':lambda:manualMode(), 'patrol':lambda:patrolMode(), 'home':lambda:homeMode(), 'shutdown':lambda:shutdownMode()}
+    
     manual_mode_speed = 180 #ou seja, 30 voltas por minuto
     manual_mode_duration = 0 # 0 significa que vai ficar executando o comando ate mandar parar ou trocar de comando
     min_obstacle_distance = 0.5 # Nao chega mais perto de obstaculos que essa distancia (tem que setar pra distancia max que a camera de perto enxerga)
@@ -15,14 +17,16 @@ class Intelligence:
         self.current_state = 'sleep'
         self.current_substate = 'stopped'
         self.current_manual_command = None
+        self.mode_function_dict = {'sleep': self.sleepMode, 'jaguar':self.jaguarMode, 'manual':self.manualMode, 'patrol':self.patrolMode, 'home':self.homeMode, 'shutdown':self.shutdownMode}
 
     def mainLoop(self):
         while True:
-            if thereIsNewCommand():
+            #print(threading.current_thread())
+            if self.thereIsNewCommand():
                 self.processNewCommand()
                 self.robot.mover.stop()
                 self.robot.sucker.close()
-            executeCurrentState()
+            self.executeCurrentState()
 
     def thereIsNewCommand(self):
         if self.robot.communicator.last_command == None:
@@ -36,13 +40,13 @@ class Intelligence:
                 self.current_state = split_msg[1]
                 self.current_manual_command = None
             elif split_msg[0] == 'manual' and self.current_state == 'manual':
-                self.current_manual_command = spilt_msg[1]
+                self.current_manual_command = split_msg[1]
             self.robot.communicator.last_command = None
 
     def sleepMode(self):
         self.robot.sucker.close()
         self.robot.mover.stop()
-        self.vision.close()
+        self.robot.vision.close()
 
     def homeMode(self):
         racket = self.robot.vision.findRacket(self.robot.vision.long_distance_cam.image())
@@ -165,22 +169,28 @@ class Intelligence:
             self.robot.sucker.drop()
             sleep(1)
             self.robot.sucker.close()
-        mode_function_dict[current_state]()
+        self.mode_function_dict[self.current_state]()
 
     def manualMode(self):
-        if current_manual_command == 'forward':
-            self.robot.mover.moveForward(manual_mode_duration, manual_mode_speed)
-        elif current_manual_command == 'backward':
-            self.robot.mover.moveForward(manual_mode_duration, -manual_mode_speed)
-        elif current_manual_command == 'stop':
+        if self.current_manual_command == 'forward':
+            self.robot.mover.moveForward(self.manual_mode_duration, self.manual_mode_speed)
+        elif self.current_manual_command == 'backward':
+            self.robot.mover.moveForward(self.manual_mode_duration, -self.manual_mode_speed)
+        elif self.current_manual_command == 'stop':
             self.robot.mover.stop()
-        elif current_manual_command == 'left':
-            self.robot.mover.turn(manual_mode_duration, manual_mode_speed)
-        elif current_manual_command == 'right':
-            self.robot.mover.turn(manual_mode_duration, -manual_mode_speed)
-        elif current_manual_command == 'fan': #tem que fazer um ultimo comando manual pra saber qd eh para ligar ou desligar ventilador
-            self.robot.sucker.suck()
-        elif current_manual_command == 'cover': #idem
-            self.robot.cover.open()
+        elif self.current_manual_command == 'left':
+            self.robot.mover.turn(self.manual_mode_duration, self.manual_mode_speed)
+        elif self.current_manual_command == 'right':
+            self.robot.mover.turn(self.manual_mode_duration, -self.manual_mode_speed)
+        elif self.current_manual_command == 'fan': 
+            if self.robot.sucker.fan.is_on:
+                self.robot.sucker.fan.stop()
+            else:
+                self.robot.sucker.suck()
+        elif self.current_manual_command == 'cover':
+            if self.robot.sucker.cover.is_open:
+                self.robot.sucker.cover.close()
+            else:
+                self.robot.sucker.cover.open()
 
 from robot import Robot

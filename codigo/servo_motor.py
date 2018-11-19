@@ -25,10 +25,6 @@ class ServoMotor:
 import gpiozero
 
 class ServoMotor (gpiozero.AngularServo):
-    def __init__ (self, input_pin, min_angle=0, max_angle=180):
-        super(self, ServoMotor).__init__(input_pin, min_angle, max_angle)
-        self.angle = max_angle  # Fecha o servo no comeco
+    def __init__ (self, input_pin, initial_angle=90, min_angle=0, max_angle=180):
+        super().__init__(input_pin, initial_angle=initial_angle, min_angle=min_angle, max_angle=max_angle)
         
-    # TODO: desconectar o servo depois de mover para economizar bateria
-    def goToAngle (self, angle):
-        self.angle = angle
