@@ -8,15 +8,15 @@ class Intelligence:
     manual_mode_speed = 180 #ou seja, 30 voltas por minuto
     manual_mode_duration = 0 # 0 significa que vai ficar executando o comando ate mandar parar ou trocar de comando
     min_obstacle_distance = 0.5 # Nao chega mais perto de obstaculos que essa distancia (tem que setar pra distancia max que a camera de perto enxerga)
-    chased_distant_ball = None
     move_duration = 0.8
     turn_speed = 90
     forward_speed = 135
     def __init__ (self, robot):
         self.robot = robot
         self.current_state = 'sleep'
-        self.current_substate = 'stopped'
+        self.current_substate = 'idle'
         self.current_manual_command = None
+        self.chased_distant_ball = None
         self.mode_function_dict = {'sleep': self.sleepMode, 'jaguar':self.jaguarMode, 'manual':self.manualMode, 'patrol':self.patrolMode, 'home':self.homeMode, 'shutdown':self.shutdownMode}
 
     def mainLoop(self):
@@ -42,6 +42,8 @@ class Intelligence:
             elif split_msg[0] == 'manual' and self.current_state == 'manual':
                 self.current_manual_command = split_msg[1]
             self.robot.communicator.last_command = None
+            self.current_substate = 'idle'
+            self.chased_distant_ball = None
 
     def sleepMode(self):
         self.robot.sucker.close()

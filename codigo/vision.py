@@ -30,6 +30,9 @@ class Vision():
                       param2=hough2,
                       minRadius=min_radius,
                       maxRadius=max_radius)
+        # Da [[[0. 0. 0.]]] quando encontra algo que parece um circulo mas nao e o suficiente para ser identificado
+        if circles == np.zeros(shape=(1,1,3)):
+            circles = None
         return circles
 
     def findRacket(self):

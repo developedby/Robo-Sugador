@@ -47,7 +47,7 @@ while 1:
     circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 90,
                   param1=cv2.getTrackbarPos('param1','sliders'),
                   param2=cv2.getTrackbarPos('param2','sliders'),
-                  minRadius=2,
+                  minRadius=5,
                   maxRadius=150)
     print(circles)
     if not (circles is None):
