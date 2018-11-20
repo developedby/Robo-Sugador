@@ -4,6 +4,7 @@ class DCMotor():
     def __init__ (self, input1_pin, input2_pin):
         self.input1_pin = input1_pin
         self.input2_pin = input2_pin
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.input1_pin, GPIO.OUT)
         GPIO.setup(self.input2_pin, GPIO.OUT)
 

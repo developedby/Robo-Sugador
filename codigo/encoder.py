@@ -11,10 +11,12 @@ class Encoder :
         self.angular_velocity = None #velocidade em graus/seg
         self.degree_per_hole = 360/self.num_holes
         self.last_time_checked = time.time()
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(read_pin, GPIO.IN)
         GPIO.add_event_detect(read_pin, GPIO.RISING, callback=self.updateSpeed)
 
     def updateSpeed (self, channel):
         current_time = time.time()
         self.angular_velocity = self.degree_per_hole/(current_time - self.last_time_checked)
+        print(self.angular_velocity)
         self.last_time_checked = current_time

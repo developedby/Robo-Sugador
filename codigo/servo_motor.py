@@ -1,7 +1,7 @@
 # servo_motor.py - Servo motor que recebe angulos
-
-# Usando RPi.GPIO
 '''
+# Usando RPi.GPIO
+
 import RPi.GPIO as GPIO
 
 class ServoMotor():
@@ -10,8 +10,9 @@ class ServoMotor():
         self.angle = None
         self.min_angle = min_angle
         self.max_angle = max_angle
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.input_pin, GPIO.OUT)
-        self.pwm = GPIO.PWM(self.input_pin, 50)#20ms de periodo
+        self.pwm = GPIO.PWM(self.input_pin, 25)#20ms de periodo
         self.pwm.start(7.5)#passar uma posicao inicial?
 
     def goToAngle (self, angle):
