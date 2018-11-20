@@ -9,7 +9,6 @@ class Wheel (DCMotor):
         super().__init__(input1_pin, input2_pin)
         self.pwm_pin = pwm_pin
         self.encoder = Encoder(encoder_pin, num_holes)
-        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pwm_pin, GPIO.OUT)
         self.pwm = GPIO.PWM(self.pwm_pin, 60)#60hz ta bom?
         self.pwm.start(0)#inicia parado
@@ -17,4 +16,4 @@ class Wheel (DCMotor):
     # speed entre -100 e 100
     def spin(self, speed):
         self.rotate(speed) # Da a direção
-        self.pwm.ChangeDutyCycle(abs(speed)) # Da a velocidade (modulo)
+        self.pwm.ChangeDutyCycle(100-abs(speed)) # Da a velocidade (modulo)

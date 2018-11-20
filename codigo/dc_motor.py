@@ -10,11 +10,11 @@ class DCMotor():
 
     def rotate(self, direction):
         if direction > 0:
-            GPIO.output(self.input1_pin, GPIO.LOW)
-            GPIO.output(self.input2_pin, GPIO.HIGH)#se tiver trocado, inverte os fios
-        elif direction < 0:
             GPIO.output(self.input1_pin, GPIO.HIGH)
-            GPIO.output(self.input2_pin, GPIO.LOW)
+            GPIO.output(self.input2_pin, GPIO.LOW)#se tiver trocado, inverte os fios
+        elif direction < 0:
+            GPIO.output(self.input1_pin, GPIO.LOW)
+            GPIO.output(self.input2_pin, GPIO.HIGH)
         else:
             GPIO.output(self.input1_pin, GPIO.LOW)
             GPIO.output(self.input2_pin, GPIO.LOW)
