@@ -138,7 +138,7 @@ class Intelligence:
 
     def suckCloseBall(self, close_balls):
         self.robot.sucker.suck()
-        if close_balls[0][0][0] < (0.25+(0.15*close_balls[0][0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:#?posicao 000 e 001? 
+        if close_balls[0][0][0] < (0.25+(0.15*close_balls[0][0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
             self.robot.mover.turn(self.move_duration, self.turn_speed)
         elif close_balls[0][0][0] > (0.75-(0.15*close_balls[0][0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
             self.robot.mover.turn(self.move_duration, -self.turn_speed)
@@ -180,6 +180,7 @@ class Intelligence:
         self.mode_function_dict[self.current_state]()
 
     def manualMode(self):
+        print(self.current_manual_command)
         if self.current_manual_command == 'forward':
             self.robot.mover.moveForward(self.manual_mode_duration, self.manual_mode_speed)
         elif self.current_manual_command == 'backward':
@@ -197,8 +198,10 @@ class Intelligence:
                 self.robot.sucker.suck()
         elif self.current_manual_command == 'cover':
             if self.robot.sucker.cover.is_open:
+                print('abre')
                 self.robot.sucker.cover.close()
             else:
+                print('fecha')
                 self.robot.sucker.cover.open()
 
 from robot import Robot

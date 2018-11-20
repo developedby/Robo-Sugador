@@ -15,10 +15,10 @@ class Vision():
         self.short_distance_port = short_distance_port
 
     def findDistantBalls(self):
-        return self.findBalls(self.long_distance_cam.image(), 5, 90, 43, 34, 2, 140)#4 nao pode, tem que ser impar
+        return self.findBalls(self.long_distance_cam.image(), 9, 90, 43, 34, 2, 140)#4 nao pode, tem que ser impar
 
     def findCloseBalls(self):
-        return self.findBalls(self.short_distance_cam.image(), 5, 90, 30, 10, 2, 140)
+        return self.findBalls(self.short_distance_cam.image(), 9, 90, 30, 10, 2, 140)
 
     def findBalls(self, image, blur, min_dist, hough1, hough2, min_radius, max_radius):
         img = image
@@ -32,8 +32,9 @@ class Vision():
                       minRadius=min_radius,
                       maxRadius=max_radius)
         # Da [[[0. 0. 0.]]] quando encontra algo que parece um circulo mas nao e o suficiente para ser identificado
-        if circles.all() == np.zeros(shape=(1,1,3)).all():
-            circles = None
+        if circles is not None:
+            if np.zeros(shape=(1,1,3)) in circles:
+                circles = None
         return circles
 
     def findRacket(self, image):

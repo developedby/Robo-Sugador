@@ -24,14 +24,15 @@ class Ultrasound ():
         self.timer = Timer(0.1, self.sendTrigger)
         self.timer.start()
 
-    def countEchoTime (self):
+    def countEchoTime (self, channel):
+        print(self.distance)
         if self.edge == 'rising':
             self.echo_time = time.time()
             self.edge = 'falling'
         else:
             self.echo_time = time.time() - self.echo_time
             self.distance = self.echo_time * 170 # Velocidade do som (340) / 2 (tem que ir e voltar)
-            print(self.distance)#nunca chega aqui
+            #print(self.distance)#nunca chega aqui
             self.edge = 'rising'
 
     def stop(self):
