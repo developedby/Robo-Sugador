@@ -55,25 +55,28 @@ class Intelligence:
         racket = self.robot.vision.findRacket(self.robot.vision.long_distance_cam.image())
         if self.current_substate == 'idle':
             if racket:
-                if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
-                    self.robot.mover.stop()
-                    self.robot.sucker.close()
-                else:
-                    self.current_substate = 'chasing'
+                if self.robot.vision.obstacleDistance():
+                    if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+                        self.robot.mover.stop()
+                        self.robot.sucker.close()
+                    else:
+                        self.current_substate = 'chasing'
             else:
-                if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
-                    self.current_substate = 'obstacle'
+                if self.robot.vision.obstacleDistance():
+                    if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+                        self.current_substate = 'obstacle'
         elif self.current_substate == 'chasing':
             if racket:
                 chaseRacket(racket)
             else:
                 self.current_substate = 'idle'
         elif self.current_substate == 'obstacle':
-            if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
-                self.current_substate = 'obstacle'
-                self.avoidObstacle()
-            else:
-                self.current_substate = 'idle'
+            if self.robot.vision.obstacleDistance():
+                if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+                    self.current_substate = 'obstacle'
+                    self.avoidObstacle()
+                else:
+                    self.current_substate = 'idle'
 
     def chaseRacket(self, racket):
         if racket[0] < 0.4*self.robot.vision.long_distance_cam.resolution['width']:
@@ -85,15 +88,16 @@ class Intelligence:
 
     def patrolMode(self):
         if self.current_substate == 'idle':
-            if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
-                self.current_substate = 'obstacle'
+            if self.robot.vision.obstacleDistance():
+                if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+                    self.current_substate = 'obstacle'
             self.robot.mover.moveForward(self.move_duration, self.forward_speed)
             self.robot.sucker.close()
             balls = self.robot.vision.findDistantBalls()
             if len(balls) > 0:
                 self.current_substate = 'chasing'
         elif self.current_substate == 'chasing':
-            chaseBall()
+            self.chaseBall()
         elif self.current_substate == 'obstacle':
             self.avoidObstacle()
 
@@ -101,20 +105,21 @@ class Intelligence:
         if self.current_substate == 'idle':
             self.robot.mover.stop()
             self.robot.sucker.close()
-            if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
-                self.current_substate = 'obstacle'
+            if self.robot.vision.obstacleDistance():
+                if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+                    self.current_substate = 'obstacle'
             balls = self.robot.vision.findDistantBalls()
             if len(balls) > 0:
                 self.current_substate = 'chasing'
         elif self.current_substate == 'chasing':
-            chaseBall()
+            self.chaseBall()
         elif self.current_substate == 'obstacle':
             self.avoidObstacle()
 
     def chaseBall(self):
         close_balls = self.robot.vision.findCloseBalls()
         if len(close_balls > 0):
-            suckCloseBall(close_balls)
+            self.suckCloseBall(close_balls)
         elif self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
             self.current_substate = 'obstacle'
         else:
@@ -133,9 +138,9 @@ class Intelligence:
 
     def suckCloseBall(self, close_balls):
         self.robot.sucker.suck()
-        if close_balls[0][0] < (0.25+(0.15*close_balls[0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
+        if close_balls[0][0][0] < (0.25+(0.15*close_balls[0][0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:#?posicao 000 e 001? 
             self.robot.mover.turn(self.move_duration, self.turn_speed)
-        elif close_balls[0][0] > (0.75-(0.15*close_balls[0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
+        elif close_balls[0][0][0] > (0.75-(0.15*close_balls[0][0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
             self.robot.mover.turn(self.move_duration, -self.turn_speed)
         else:
             self.robot.mover.moveForward(self.move_duration, self.forward_speed)

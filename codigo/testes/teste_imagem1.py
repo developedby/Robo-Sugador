@@ -9,7 +9,7 @@ def no():
     pass
 
 cam = cv2.VideoCapture()
-cam.open(0)
+cam.open(1)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, 500)
 cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 500)
 cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
