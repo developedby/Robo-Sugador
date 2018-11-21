@@ -10,7 +10,7 @@ class Encoder :
     def __init__ (self, read_pin, num_holes):
         self.read_pin = read_pin
         self.num_holes = num_holes
-        self.angular_velocity = None #velocidade em graus/seg
+        self.angular_velocity = 0 #velocidade em graus/seg
         self.degree_per_hole = float(360/self.num_holes)
         self.last_time_checked = time.time()
         GPIO.setup(read_pin, GPIO.IN)
@@ -21,6 +21,6 @@ class Encoder :
         measured_velocity = self.degree_per_hole/float(current_time - self.last_time_checked)
         if measured_velocity < 1000:
             self.angular_velocity = measured_velocity
-#        print(self.angular_velocity)
+        print(self.angular_velocity)
         self.last_time_checked = current_time
         #self.log.append(self.angular_velocity)

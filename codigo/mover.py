@@ -25,9 +25,6 @@ class Mover():
 
 
     def adjustSpeed(self):
-        if not self.left_wheel.encoder.angular_velocity or not self.right_wheel.encoder.angular_velocity:
-            return
-
         if (self.sign(self.left_wheel_required_speed) * self.left_wheel.encoder.angular_velocity) > self.left_wheel_required_speed:
             self.left_wheel_sent_speed -= self.speed_adjust_delta
         elif (self.sign(self.left_wheel_required_speed) * self.left_wheel.encoder.angular_velocity) < self.left_wheel_required_speed:
@@ -39,10 +36,12 @@ class Mover():
             self.right_wheel_sent_speed += self.speed_adjust_delta
 
         self.left_wheel_sent_speed = clamp(self.left_wheel_sent_speed, -100, 100)
-        self.left_wheel_sent_speed = clamp(self.left_wheel_sent_speed, -100, 100)
+        self.right_wheel_sent_speed = clamp(self.left_wheel_sent_speed, -100, 100)
         self.left_wheel.spin(self.left_wheel_sent_speed)
         self.right_wheel.spin(self.right_wheel_sent_speed)
-        print("Escrevendo roda esquerda:" + self.left_wheel_sent_speed)
+        print("Escrevendo roda esquerda:", self.left_wheel_sent_speed)
+        
+        self.setTimer()
 
     def moveForward(self, speed):
         self.left_wheel_required_speed = speed
@@ -79,8 +78,13 @@ class Mover():
     def setTimer(self):
         self.speed_adjust_timer = Timer(self.speed_adjust_frequency, self.adjustSpeed)
         self.speed_adjust_timer.start()
+        print('ativando timer das rodas com tempo', self.speed_adjust_frequency)
 
             
     def sign(self, x):
-        x = x and (1, -1)[x < 0]
-        return x
+        if x == 0:
+            return 0
+        elif x > 0:
+            return 1
+        else:
+            return -1

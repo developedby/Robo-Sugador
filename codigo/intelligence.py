@@ -82,7 +82,16 @@ class Intelligence:
         else:
             self.robot.mover.moveForward(self.forward_speed)
 
+    def dropBall(self):
+            self.robot.sucker.drop()
+            self.robot.mover.stop()
+            sleep(2)
+            self.robot.sucker.close()
+
     def patrolMode(self):
+        if self.robot.sucker.infrared.obstacle:
+            self.dropBall()
+    
         if self.current_substate == 'idle':
             if self.robot.vision.obstacleDistance():
                 if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
@@ -98,6 +107,9 @@ class Intelligence:
             self.avoidObstacle()
 
     def jaguarMode(self):
+        if self.robot.sucker.infrared.obstacle:
+            self.dropBall()
+    
         if self.current_substate == 'idle':
             self.robot.mover.stop()
             self.robot.sucker.close()
@@ -168,11 +180,6 @@ class Intelligence:
         system('systemctl poweroff')
 
     def executeCurrentState(self):
-        if self.robot.sucker.infrared.obstacle:
-            self.robot.mover.stop()
-            self.robot.sucker.drop()
-            sleep(1)
-            self.robot.sucker.close()
         self.mode_function_dict[self.current_state]()
 
     def manualMode(self):
