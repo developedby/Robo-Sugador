@@ -15,4 +15,5 @@
     <string name="fan">fan</string>
     <string name="cover">cover</string>
     <string name="patrolling">patrolling</string>
+    <string name="manual">manual</string>
 </resources>

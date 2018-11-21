@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Button mBtnSleep;
     Button mBtnJaguar;
     Button mBtnPatrol;
+    Button mBtnManual;
     Button mBtnHome;
     Button mBtnShutdown;
     Button mBtnForward;
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnSleep = findViewById(R.id.sleeping);
         mBtnJaguar = findViewById(R.id.jaguar);
         mBtnPatrol = findViewById(R.id.patrolling);
+        mBtnManual = findViewById(R.id.manual);
         mBtnHome = findViewById(R.id.home);
         mBtnShutdown = findViewById(R.id.shutdown);
         mBtnForward = findViewById(R.id.forward);
@@ -134,6 +136,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new Sender().execute("mode:patrol");
+            }
+        });
+
+        mBtnManual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Sender().execute("mode:manual");
             }
         });
 
