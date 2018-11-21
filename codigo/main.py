@@ -31,7 +31,7 @@ fan_input2_pin = 9
 cover_pin = 12
 servo_min_angle = 0
 servo_max_angle = 180
-cover_closed_angle = 150 #chute nos angulos de abertura e fechamento
+cover_closed_angle = 0 #chute nos angulos de abertura e fechamento
 cover_open_angle = 180
 servo_initial_angle = (cover_closed_angle + cover_open_angle)/2
 

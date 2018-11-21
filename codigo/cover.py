@@ -13,13 +13,13 @@ class Cover():
 
     #TODO: Medir o angulo certo
     def open(self):
-        self.motor.angle = self.open_angle
-        #self.motor.max()
-        #self.motor.goToAngle(self.open_angle)
-        self.is_open = True
+        if not self.is_open:
+            self.motor.angle = self.open_angle
+            self.is_open = True
+            print('open cover')
 
     def close(self):
-        self.motor.angle = self.closed_angle
-        #self.motor.min()
-        #self.motor.goToAngle(self.open_angle)
-        self.is_open = False
+        if self.is_open:
+            self.motor.angle = self.closed_angle
+            self.is_open = False
+            print('close cover')

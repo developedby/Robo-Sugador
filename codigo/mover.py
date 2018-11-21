@@ -10,18 +10,18 @@ def clamp(num, min_value, max_value):
 
 class Mover():
     #sign = lambda x: x and (1, -1)[x < 0]
-    speed_adjust_frequency = 0.25
+    speed_adjust_frequency = 0.05
 
     def __init__ (self, input1_a_pin, input2_a_pin, pwm_a_pin, encoder_a_pin, num_a_holes, input1_b_pin, input2_b_pin, pwm_b_pin, encoder_b_pin, num_b_holes, speed_adjust_delta):
         self.left_wheel = Wheel(input1_a_pin, input2_a_pin, pwm_a_pin, encoder_a_pin, num_a_holes)
         self.right_wheel = Wheel(input1_b_pin, input2_b_pin, pwm_b_pin, encoder_b_pin, num_b_holes)
-        self.left_wheel_sent_speed = 0  # velocidade enviada a roda, em % do pwm - Alefe
-        self.right_wheel_sent_speed = 0
-        self.left_wheel_required_speed = None # velocidade desejada, em graus por segundo
+        self.left_wheel_sent_speed = None               # velocidade enviada a roda, em % do pwm - Alefe
+        self.right_wheel_sent_speed = None
+        self.left_wheel_required_speed = None           # velocidade desejada, em graus por segundo
         self.right_wheel_required_speed = None
-        self.speed_adjust_delta = speed_adjust_delta
+        self.speed_adjust_delta = speed_adjust_delta    # quanto a velocidade enviada varia a cada ajuste
         self.speed_adjust_timer = None
-        self.move_duration_timer = None
+        self.moving = False
 
 
     def adjustSpeed(self):
@@ -42,42 +42,44 @@ class Mover():
         self.left_wheel_sent_speed = clamp(self.left_wheel_sent_speed, -100, 100)
         self.left_wheel.spin(self.left_wheel_sent_speed)
         self.right_wheel.spin(self.right_wheel_sent_speed)
+        print("Escrevendo roda esquerda:" + self.left_wheel_sent_speed)
 
-    def moveForward(self, duration, speed):
+    def moveForward(self, speed):
         self.left_wheel_required_speed = speed
         self.right_wheel_required_speed = speed
+        self.left_wheel_sent_speed = self.sign(speed)*50
+        self.right_wheel_sent_speed = self.sign(speed)*50
 
-        self.stopTimers()
-        self.setTimers(duration)
+        if not self.speed_adjust_timer or not self.speed_adjust_timer.is_alive():
+            self.setTimer()
 
-    def turn(self, duration, speed): # usando sentido positivo: antihorario
+    def turn(self, speed): # usando sentido positivo: antihorario
         self.left_wheel_required_speed = -speed
         self.right_wheel_required_speed = speed
+        self.left_wheel_sent_speed = -self.sign(speed)*50
+        self.right_wheel_sent_speed = self.sign(speed)*50
 
-        self.stopTimers()
-        self.setTimers(duration)
+        if not self.speed_adjust_timer or not self.speed_adjust_timer.is_alive():
+            self.setTimer()
 
     def stop(self):
-        self.stopTimers()
+        self.stopTimer()
         self.left_wheel.spin(0)
         self.right_wheel.spin(0)
+        self.left_wheel_sent_speed = 0
+        self.right_wheel_sent_speed = 0
         self.left_wheel_required_speed = 0
         self.right_wheel_required_speed = 0
 
-    def stopTimers(self):
+    def stopTimer(self):
         if self.speed_adjust_timer:
             self.speed_adjust_timer.cancel()
-        if self.move_duration_timer:
-            self.move_duration_timer.cancel()
+            self.speed_adjust_timer = None
 
-    # duration <= 0 -> Infinite duration
-    def setTimers(self, duration):
+    def setTimer(self):
         self.speed_adjust_timer = Timer(self.speed_adjust_frequency, self.adjustSpeed)
         self.speed_adjust_timer.start()
 
-        if duration > 0:
-            self.move_duration_timer = Timer(duration, self.stopTimers)
-            self.move_duration_timer.start()
             
     def sign(self, x):
         x = x and (1, -1)[x < 0]

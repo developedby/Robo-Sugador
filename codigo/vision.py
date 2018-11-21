@@ -35,6 +35,7 @@ class Vision():
         if circles is not None:
             if np.zeros(shape=(1,1,3)) in circles:
                 circles = None
+        print('circulos: ', circles)
         return circles
 
     def findRacket(self, image):
@@ -55,6 +56,8 @@ class Vision():
             M = cv2.moments(c)
             if M["m00"] and M["m00"]:
                 center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+         
+        print('raquete: ', center)
         return center
 
     def obstacleDistance(self):
