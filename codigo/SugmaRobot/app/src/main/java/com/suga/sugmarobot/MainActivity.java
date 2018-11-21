@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.modes:
+                case R.id.nav_modes:
                     mTextMessage.setText(R.string.title_home);
                     return true;
-                case R.id.manual:
+                case R.id.nav_manual:
                     mTextMessage.setText(R.string.title_dashboard);
                     return true;
             }

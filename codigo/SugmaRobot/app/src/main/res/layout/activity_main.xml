@@ -46,9 +46,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/patrolling"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/manual"
+        app:layout_constraintEnd_toEndOf="@+id/manual"
+        app:layout_constraintStart_toStartOf="@+id/manual"
         app:layout_constraintTop_toBottomOf="@+id/jaguar" />
 
     <Button
@@ -82,7 +82,7 @@
         app:layout_constraintEnd_toEndOf="@+id/shutdown"
         app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="@+id/shutdown"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/manual" />
 
     <Button
         android:id="@+id/backward"
@@ -156,10 +156,9 @@
         app:layout_constraintTop_toBottomOf="@+id/fan" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/manual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/manual"
         app:layout_constraintBottom_toTopOf="@+id/home"
         app:layout_constraintEnd_toEndOf="@+id/home"
