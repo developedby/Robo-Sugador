@@ -27,5 +27,4 @@ import gpiozero
 
 class ServoMotor (gpiozero.AngularServo):
     def __init__ (self, input_pin, initial_angle=90, min_angle=0, max_angle=180):
-        super().__init__(input_pin, initial_angle=initial_angle, min_angle=min_angle, max_angle=max_angle, min_pulse_width=0.5/1000, max_pulse_width=2.25/1000)
-        
+        super().__init__(input_pin, initial_angle=initial_angle, min_angle=min_angle, max_angle=max_angle, min_pulse_width=0.46/1000, max_pulse_width=2.25/1000)

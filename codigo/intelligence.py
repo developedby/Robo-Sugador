@@ -5,7 +5,7 @@ from time import sleep
 
 class Intelligence:
     
-    manual_mode_speed = 180 #ou seja, 30 voltas por minuto
+    manual_mode_speed = 500
     min_obstacle_distance = 0.5 # Nao chega mais perto de obstaculos que essa distancia (tem que setar pra distancia max que a camera de perto enxerga)
     turn_speed = 500
     forward_speed = 500

@@ -21,6 +21,6 @@ class Encoder :
         measured_velocity = self.degree_per_hole/float(current_time - self.last_time_checked)
         if measured_velocity < 1000:
             self.angular_velocity = measured_velocity
-        print(self.angular_velocity)
+        #print(self.angular_velocity)
         self.last_time_checked = current_time
         #self.log.append(self.angular_velocity)
