@@ -1,6 +1,6 @@
 # ultrasound.py - Ultrassom que diz distancia até obstaculos
 # Informações sobre a licensa no arquivo LICENSE
-
+'''
 import RPi.GPIO as GPIO
 import time
 from threading import Timer
@@ -19,8 +19,9 @@ class Ultrasound ():
 
     def sendTrigger (self):
         GPIO.output(self.trigger_pin, GPIO.HIGH)
-        time.sleep(0.00002);
+        time.sleep(0.00001);
         GPIO.output(self.trigger_pin, GPIO.LOW)
+        #print("oi")
         self.timer = Timer(0.1, self.sendTrigger)
         self.timer.start()
 
@@ -48,11 +49,11 @@ class Ultrasound ():
 import gpiozero
 
 class Ultrasound (gpiozero.DistanceSensor):
-    def __init__ (self, echo_pin, trigger_pin):
-        super().__init__(echo=echo_pin, trigger=trigger_pin, max_distance=1)
+    def __init__ (self, echo_pin, trigger_pin, max_detectable_distance):
+        super().__init__(echo=echo_pin, trigger=trigger_pin, max_distance=max_detectable_distance)
 
       
-
+'''
 import RPi.GPIO as GPIO
 import time
 from threading import Timer

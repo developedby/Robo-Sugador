@@ -7,10 +7,10 @@ import cv2
 import numpy as np
 
 class Vision():
-    def __init__(self, echo_pin, trigger_pin, long_distance_port, short_distance_port):
+    def __init__(self, echo_pin, trigger_pin, max_detectable_distance, long_distance_port, short_distance_port):
         self.long_distance_cam = Camera(port=long_distance_port, resolution={'width':1280, 'height':720})
         self.short_distance_cam = Camera(port=short_distance_port, resolution={'width':854, 'height':480})
-        self.ultrasound = Ultrasound(echo_pin, trigger_pin)
+        self.ultrasound = Ultrasound(echo_pin, trigger_pin, max_detectable_distance)
         self.long_distance_port = long_distance_port
         self.short_distance_port = short_distance_port
 

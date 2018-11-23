@@ -10,6 +10,7 @@ class Robot :
     def __init__ (self,
                     # Vision
                   ultrasound_echo_pin,
+                  max_detectable_distance,
                   ultrasound_trigger_pin,
                   long_distance_cam_port,
                   short_distance_cam_port,

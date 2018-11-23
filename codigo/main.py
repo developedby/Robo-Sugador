@@ -12,6 +12,7 @@ from robot import Robot
 
 ultrasound_echo_pin = 4
 ultrasound_trigger_pin = 27
+max_detectable_distance = 1
 long_distance_cam_port = 0
 short_distance_cam_port = 1
 left_wheel_input1_pin = 25
@@ -39,6 +40,7 @@ servo_initial_angle = 22#(cover_closed_angle + cover_open_angle)/2 - Não, tem q
 the_robot = Robot(  # Vision
                     ultrasound_echo_pin,
                     ultrasound_trigger_pin,
+                    max_detectable_distance,
                     long_distance_cam_port,
                     short_distance_cam_port,
                     # Mover
