@@ -19,7 +19,7 @@ class Ultrasound ():
 
     def sendTrigger (self):
         GPIO.output(self.trigger_pin, GPIO.HIGH)
-        time.sleep(0.000011);
+        time.sleep(0.00002);
         GPIO.output(self.trigger_pin, GPIO.LOW)
         self.timer = Timer(0.1, self.sendTrigger)
         self.timer.start()
