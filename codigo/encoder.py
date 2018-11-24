@@ -2,25 +2,27 @@
 # Informações sobre a licensa no arquivo LICENSE
 
 import RPi.GPIO as GPIO
-import time
+from threading import Timer
 
 class Encoder :
     #log = []
 
-    def __init__ (self, read_pin, num_holes):
+    def __init__ (self, read_pin, num_holes, speed_update_frequency):
         self.read_pin = read_pin
         self.num_holes = num_holes
-        self.angular_velocity = 0 #velocidade em graus/seg
-        self.degree_per_hole = float(360/self.num_holes)
-        self.last_time_checked = time.time()
+        self.angular_velocity = 0 #velocidade em voltas/seg
+        self.counter = 0
+        self.speed_update_frequency = speed_update_frequency
         GPIO.setup(read_pin, GPIO.IN)
-        GPIO.add_event_detect(read_pin, GPIO.FALLING, callback=self.updateSpeed)
+        GPIO.add_event_detect(read_pin, GPIO.FALLING, callback=self.contRoles)
+        self.timer = Timer(self.speed_update_frequency, self.updateSpeed)
+        self.timer.start()
+    
+    def contRoles(self, channel):
+        self.counter = self.counter+1;
 
-    def updateSpeed (self, channel):
-        current_time = time.time()
-        measured_velocity = self.degree_per_hole/float(current_time - self.last_time_checked)
-        if measured_velocity < 1000:
-            self.angular_velocity = measured_velocity
-        #print(self.angular_velocity)
-        self.last_time_checked = current_time
-        #self.log.append(self.angular_velocity)
+    def updateSpeed (self):
+        self.angular_velocity = self.counter/float(self.num_holes*self.speed_update_frequency)
+        self.counter = 0;
+        self.timer = Timer(self.speed_update_frequency, self.updateSpeed)
+        self.timer.start()

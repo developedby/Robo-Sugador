@@ -13,8 +13,8 @@ from robot import Robot
 ultrasound_echo_pin = 4
 ultrasound_trigger_pin = 27
 max_detectable_distance = 1
-long_distance_cam_port = 0
-short_distance_cam_port = 1
+long_distance_cam_port = 1
+short_distance_cam_port = 0
 left_wheel_input1_pin = 25
 left_wheel_input2_pin = 8
 left_wheel_pwm_pin = 13

@@ -10,8 +10,8 @@ class Robot :
     def __init__ (self,
                     # Vision
                   ultrasound_echo_pin,
-                  max_detectable_distance,
                   ultrasound_trigger_pin,
+                  max_detectable_distance,
                   long_distance_cam_port,
                   short_distance_cam_port,
                     # Mover
@@ -38,6 +38,7 @@ class Robot :
                   cover_open_angle):
         self.vision = Vision(ultrasound_echo_pin,
                              ultrasound_trigger_pin,
+                             max_detectable_distance,
                              long_distance_cam_port,
                              short_distance_cam_port)
         self.mover = Mover(left_wheel_input1_pin,

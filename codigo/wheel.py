@@ -5,10 +5,10 @@ from dc_motor import DCMotor
 from encoder import Encoder
 
 class Wheel (DCMotor):
-    def __init__ (self, input1_pin, input2_pin, pwm_pin, encoder_pin, num_holes):
+    def __init__ (self, input1_pin, input2_pin, pwm_pin, encoder_pin, num_holes, speed_update_frequency):
         super().__init__(input1_pin, input2_pin)
         self.pwm_pin = pwm_pin
-        self.encoder = Encoder(encoder_pin, num_holes)
+        self.encoder = Encoder(encoder_pin, num_holes, speed_update_frequency)
         GPIO.setup(self.pwm_pin, GPIO.OUT)
         self.pwm = GPIO.PWM(self.pwm_pin, 60)#60hz ta bom?
         self.pwm.start(0)#inicia parado
