@@ -9,11 +9,12 @@ def no():
     pass
 
 cam = cv2.VideoCapture()
-cam.open(1)
-cam.set(cv2.CAP_PROP_FRAME_WIDTH, 500)
-cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 500)
+#cam.open('/dev/v4l/by-id/usb-046d_Camera-video-index0')
+cam.open('/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_969829FF-video-index0')
+#cam.set(cv2.CAP_PROP_FRAME_WIDTH, 500)
+#cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 500)
 cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
-# cam.set(cv2.CAP_PROP_FRAME_COUNT, 1)
+cam.set(cv2.CAP_PROP_FRAME_COUNT, 1)
 
 cv2.namedWindow('sliders')
 cv2.createTrackbar('param1','sliders',50,100,no)

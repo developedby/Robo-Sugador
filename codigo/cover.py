@@ -11,15 +11,14 @@ class Cover():
         self.open_angle = open_angle
         self.is_open = None
 
-    #TODO: Medir o angulo certo
     def open(self):
         if not self.is_open:
             self.motor.angle = self.open_angle
             self.is_open = True
-            print('open cover')
+            #print('open cover')
 
     def close(self):
         if self.is_open:
             self.motor.angle = self.closed_angle
             self.is_open = False
-            print('close cover')
+            #print('close cover')

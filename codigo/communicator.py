@@ -19,6 +19,7 @@ class Communicator():
         self.receiveCommand()
 
     def connect(self):
+        print('Tentando conexão')
         self.server_socket = bluetooth.BluetoothSocket( bluetooth.RFCOMM )
         self.server_socket.bind(("",bluetooth.PORT_ANY)) # Vulneravel a ataques -Nicolas
         self.server_socket.listen(1)
@@ -30,23 +31,19 @@ class Communicator():
 #                   protocols = [ bluetooth.OBEX_UUID ]
                     )
         self.client_socket, self.client_info = self.server_socket.accept()
+        print('Conectado')
         self.connected = True
 
     def receiveCommand(self):
         while True:
-            print(threading.current_thread())
             try:
-                #while True:
                 data = self.client_socket.recv(1024)
-                #    if len(data) == 0:
-                #        break
                 self.last_command = self.decodeMessage(data)
-                print(data.decode('utf-8'), self.last_command)
+                print('Comando recebido:', self.last_command)
             except IOError:
                 print("erro de envio")
                 self.connected = False
                 self.connect()
-            
 
     def decodeMessage(self, msg):
         msg = msg.decode('utf-8')

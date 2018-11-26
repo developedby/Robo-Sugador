@@ -41,6 +41,7 @@ class Intelligence:
         self.robot.communicator.last_command = None
         self.current_substate = 'idle'
         self.chased_distant_ball = None
+        print('modo:', self.current_state, 'manual:', self.current_manual_command)
 
     def sleepMode(self):
         self.robot.sucker.close()
@@ -50,7 +51,7 @@ class Intelligence:
     def homeMode(self):
         racket = self.robot.vision.findRacket(self.robot.vision.long_distance_cam.image())
         if self.current_substate == 'idle':
-            if racket:
+            if racket is not None:
                 if self.robot.vision.obstacleDistance():
                     if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
                         self.robot.mover.stop()
@@ -62,7 +63,7 @@ class Intelligence:
                     if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
                         self.current_substate = 'obstacle'
         elif self.current_substate == 'chasing':
-            if racket:
+            if racket is not None:
                 self.chaseRacket(racket)
             else:
                 self.current_substate = 'idle'
@@ -99,7 +100,7 @@ class Intelligence:
             self.robot.mover.moveForward(self.forward_speed)
             self.robot.sucker.close()
             balls = self.robot.vision.findDistantBalls()
-            if len(balls) > 0:
+            if balls is not None:
                 self.current_substate = 'chasing'
         elif self.current_substate == 'chasing':
             self.chaseBall()
@@ -117,7 +118,7 @@ class Intelligence:
                 if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
                     self.current_substate = 'obstacle'
             balls = self.robot.vision.findDistantBalls()
-            if len(balls) > 0:
+            if balls is not None:
                 self.current_substate = 'chasing'
         elif self.current_substate == 'chasing':
             self.chaseBall()
@@ -126,14 +127,14 @@ class Intelligence:
 
     def chaseBall(self):
         close_balls = self.robot.vision.findCloseBalls()
-        if len(close_balls > 0):
+        if close_balls is not None:
             self.suckCloseBall(close_balls)
         elif self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
             self.current_substate = 'obstacle'
         else:
             distant_balls = self.robot.vision.findDistantBalls()
-            if len(distant_balls) > 0:
-                chaseDistantBall(distant_balls)
+            if distant_balls is not None:
+                self.chaseDistantBall(distant_balls)
             else:
                 self.current_substate = 'idle'
 
@@ -167,12 +168,13 @@ class Intelligence:
                     min_dist = distance(c, chased_distant_ball)
                     circle = c
                 chased_distant_ball = circle
-        if chased_distant_ball[0] < 0.4*self.robot.vision.long_distance_cam.resolution['width']:
-            self.robot.mover.turn(self.turn_speed)
-        elif chased_distant_ball[0] > 0.6*self.robot.vision.long_distance_cam.resolution['width']:
-            self.robot.mover.turn(-self.turn_speed)
-        else:
-            self.robot.mover.moveForward(self.forward_speed)
+        if chased_distant_ball:
+            if chased_distant_ball[0] < 0.4*self.robot.vision.long_distance_cam.resolution['width']:
+                self.robot.mover.turn(self.turn_speed)
+            elif chased_distant_ball[0] > 0.6*self.robot.vision.long_distance_cam.resolution['width']:
+                self.robot.mover.turn(-self.turn_speed)
+            else:
+                self.robot.mover.moveForward(self.forward_speed)
 
     def shutdownMode(self):
         self.robot.sucker.close()
@@ -184,7 +186,8 @@ class Intelligence:
 
     def manualMode(self):
         if self.current_manual_command != None:
-            print(self.current_manual_command)
+            #print(self.current_manual_command)
+            pass
         if self.current_manual_command == 'forward':
             self.robot.mover.moveForward(self.manual_mode_speed)
         elif self.current_manual_command == 'backward':
