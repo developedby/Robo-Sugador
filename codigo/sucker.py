@@ -22,3 +22,9 @@ class Sucker:
     def close(self):
         self.cover.close()
         self.fan.stop()
+
+    def deactivate(self):
+        self.cover.open()
+        self.fan.stop()
+        self.cover.motor.detach()
+        

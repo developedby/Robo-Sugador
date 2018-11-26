@@ -41,12 +41,16 @@ class Intelligence:
         self.robot.communicator.last_command = None
         self.current_substate = 'idle'
         self.chased_distant_ball = None
-        print('modo:', self.current_state, 'manual:', self.current_manual_command)
+        #print('modo:', self.current_state, 'manual:', self.current_manual_command)
 
     def sleepMode(self):
-        self.robot.sucker.close()
-        self.robot.mover.stop()
-        self.robot.vision.close()
+        if self.current_substate == 'idle':
+            self.robot.sucker.deactivate()
+            self.robot.mover.stop()
+            self.robot.vision.close()
+            self.current_substate = 'sleeping'
+        elif self.current_substate == 'sleeping':
+            sleep(1)
 
     def homeMode(self):
         racket = self.robot.vision.findRacket(self.robot.vision.long_distance_cam.image())
