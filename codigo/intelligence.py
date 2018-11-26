@@ -4,10 +4,10 @@ import threading
 from time import sleep
 
 class Intelligence:
-    
+
     manual_mode_speed = 2
     min_obstacle_distance = 0.5 # Nao chega mais perto de obstaculos que essa distancia (tem que setar pra distancia max que a camera de perto enxerga)
-    turn_speed = 2
+    turn_speed = 1
     forward_speed = 2
     def __init__ (self, robot):
         self.robot = robot
@@ -54,30 +54,25 @@ class Intelligence:
 
     def homeMode(self):
         racket = self.robot.vision.findRacket(self.robot.vision.long_distance_cam.image())
+        obstacle_dist = self.robot.vision.obstacleDistance()
         if self.current_substate == 'idle':
+            self.robot.mover.stop()
+            self.robot.sucker.close()
             if racket is not None:
-                if self.robot.vision.obstacleDistance():
-                    if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
-                        self.robot.mover.stop()
-                        self.robot.sucker.close()
-                    else:
-                        self.current_substate = 'chasing'
+                self.current_substate = 'chasing'
             else:
-                if self.robot.vision.obstacleDistance():
-                    if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
-                        self.current_substate = 'obstacle'
+                if obstacle_dist and obstacle_dist < self.min_obstacle_distance:
+                    self.current_substate = 'obstacle'
         elif self.current_substate == 'chasing':
             if racket is not None:
+                if obstacle_dist and obstacle_dist < self.min_obstacle_distance:
+                    self.robot.mover.stop()
+                    self.robot.sucker.close()
                 self.chaseRacket(racket)
             else:
                 self.current_substate = 'idle'
         elif self.current_substate == 'obstacle':
-            if self.robot.vision.obstacleDistance():
-                if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
-                    self.current_substate = 'obstacle'
-                    self.avoidObstacle()
-                else:
-                    self.current_substate = 'idle'
+            self.avoidObstacle()
 
     def chaseRacket(self, racket):
         if racket[0] < 0.4*self.robot.vision.long_distance_cam.resolution['width']:
@@ -96,16 +91,17 @@ class Intelligence:
     def patrolMode(self):
         if self.robot.sucker.infrared.obstacle:
             self.dropBall()
-    
+
         if self.current_substate == 'idle':
-            if self.robot.vision.obstacleDistance():
-                if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+            obstacle_dist = self.robot.vision.obstacleDistance()
+            if obstacle_dist and obstacle_dist < self.min_obstacle_distance:
                     self.current_substate = 'obstacle'
-            self.robot.mover.moveForward(self.forward_speed)
-            self.robot.sucker.close()
-            balls = self.robot.vision.findDistantBalls()
-            if balls is not None:
-                self.current_substate = 'chasing'
+            else:
+                self.robot.mover.moveForward(self.forward_speed)
+                self.robot.sucker.close()
+                balls = self.robot.vision.findDistantBalls()
+                if balls is not None:
+                    self.current_substate = 'chasing'
         elif self.current_substate == 'chasing':
             self.chaseBall()
         elif self.current_substate == 'obstacle':
@@ -114,16 +110,17 @@ class Intelligence:
     def jaguarMode(self):
         if self.robot.sucker.infrared.obstacle:
             self.dropBall()
-    
+
         if self.current_substate == 'idle':
             self.robot.mover.stop()
             self.robot.sucker.close()
-            if self.robot.vision.obstacleDistance():
-                if self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+            obstacle_dist = self.robot.vision.obstacleDistance()
+            if obstacle_dist and obstacle_dist < self.min_obstacle_distance:
                     self.current_substate = 'obstacle'
-            balls = self.robot.vision.findDistantBalls()
-            if balls is not None:
-                self.current_substate = 'chasing'
+            else:
+                balls = self.robot.vision.findDistantBalls()
+                if balls is not None:
+                    self.current_substate = 'chasing'
         elif self.current_substate == 'chasing':
             self.chaseBall()
         elif self.current_substate == 'obstacle':
@@ -133,7 +130,8 @@ class Intelligence:
         close_balls = self.robot.vision.findCloseBalls()
         if close_balls is not None:
             self.suckCloseBall(close_balls)
-        elif self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+        obstacle_dist = self.robot.vision.obstacleDistance()
+        if obstacle_dist and obstacle_dist < self.min_obstacle_distance:
             self.current_substate = 'obstacle'
         else:
             distant_balls = self.robot.vision.findDistantBalls()
@@ -143,8 +141,11 @@ class Intelligence:
                 self.current_substate = 'idle'
 
     def avoidObstacle(self):
-        while self.robot.vision.obstacleDistance() < self.min_obstacle_distance:
+        obstacle_dist = self.robot.vision.obstacleDistance()
+        if obstacle_dist and obstacle_dist < self.min_obstacle_distance:
             self.robot.mover.turn(self.turn_speed)
+        else:
+            self.current_substate = 'idle'
 
     def distance(coord1, coord2):
         return math.hypot(coord2[0]-coord1[0], coord2[1]-coord1[1])
@@ -202,7 +203,7 @@ class Intelligence:
             self.robot.mover.turn(self.manual_mode_speed)
         elif self.current_manual_command == 'right':
             self.robot.mover.turn(-self.manual_mode_speed)
-        elif self.current_manual_command == 'fan': 
+        elif self.current_manual_command == 'fan':
             if self.robot.sucker.fan.is_on:
                 self.robot.sucker.fan.stop()
             else:
