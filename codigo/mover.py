@@ -40,11 +40,11 @@ class Mover():
         self.left_wheel.spin(self.left_wheel_sent_speed)
         self.right_wheel.spin(self.right_wheel_sent_speed)
 
-        #print("Vel desejada roda direita:", self.right_wheel_required_speed)
+        print("Vel desejada roda direita:", self.right_wheel_required_speed)
         #print("Vel lida na roda direita:", self.sign(self.right_wheel_required_speed) * self.right_wheel.encoder.angular_velocity)
         #print("Escrevendo roda direita:", self.right_wheel_sent_speed)
 
-        #print("Vel desejada roda esquerda:", self.left_wheel_required_speed)
+        print("Vel desejada roda esquerda:", self.left_wheel_required_speed)
         #print("Vel lida na roda esquerda:", self.sign(self.left_wheel_required_speed) * self.left_wheel.encoder.angular_velocity)
         #print("Escrevendo roda esquerda:", self.left_wheel_sent_speed)
 
