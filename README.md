@@ -5,7 +5,7 @@ Desenvolvido para a disciplina Oficina de Integração 2 - Engenharia de Computa
 
 ## Autores
 * Nicolas Abril
-* Alefe Felipe Gonçalves Dias
+* Áefe Felipe Gonçalves Pereira Dias
 * Lucca Rawlyk
 
 ## Programas necessários
