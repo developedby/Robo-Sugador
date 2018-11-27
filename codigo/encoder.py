@@ -14,12 +14,12 @@ class Encoder :
         self.counter = 0
         self.speed_update_frequency = speed_update_frequency
         GPIO.setup(read_pin, GPIO.IN)
-        GPIO.add_event_detect(read_pin, GPIO.FALLING, callback=self.contRoles)
+        GPIO.add_event_detect(read_pin, GPIO.FALLING, callback=self.countHoles)
         self.timer = Timer(self.speed_update_frequency, self.updateSpeed)
         self.timer.start()
-    
-    def contRoles(self, channel):
-        self.counter = self.counter+1;
+
+    def countHoles(self, channel):
+        self.counter = self.counter + 1;
 
     def updateSpeed (self):
         self.angular_velocity = self.counter/float(self.num_holes*self.speed_update_frequency)

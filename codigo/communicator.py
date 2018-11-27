@@ -28,7 +28,6 @@ class Communicator():
                    service_id = self.uuid,
                    service_classes = [ self.uuid, bluetooth.SERIAL_PORT_CLASS ],
                    profiles = [ bluetooth.SERIAL_PORT_PROFILE ],
-#                   protocols = [ bluetooth.OBEX_UUID ]
                     )
         self.client_socket, self.client_info = self.server_socket.accept()
         print('Conectado')
