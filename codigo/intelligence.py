@@ -75,9 +75,9 @@ class Intelligence:
             self.avoidObstacle()
 
     def chaseRacket(self, racket):
-        if racket[0] < 0.4*self.robot.vision.long_distance_cam.resolution['width']:
+        if racket[0] < 0.3*self.robot.vision.long_distance_cam.resolution['width']:
             self.robot.mover.turn(self.turn_speed)
-        elif racket[0] > 0.6*self.robot.vision.long_distance_cam.resolution['width']:
+        elif racket[0] > 0.7*self.robot.vision.long_distance_cam.resolution['width']:
             self.robot.mover.turn(-self.turn_speed)
         else:
             self.robot.mover.moveForward(self.forward_speed)
@@ -144,6 +144,7 @@ class Intelligence:
         obstacle_dist = self.robot.vision.obstacleDistance()
         if obstacle_dist and obstacle_dist < self.min_obstacle_distance:
             self.robot.mover.turn(self.turn_speed)
+            print("desviando com distancia", obstacle_dist)
         else:
             self.current_substate = 'idle'
 
