@@ -16,10 +16,10 @@ class Vision():
 
     def findDistantBalls(self):
         print('circulos distantes:')
-        return self.findBalls(self.long_distance_cam.image(),  9, 90, 50, 40, 2, 140)
+        return self.findBalls(self.long_distance_cam.image(),  9, 90, 45, 35, 2, 140)
     def findCloseBalls(self):
         print('circulos proximos:')
-        return self.findBalls(self.short_distance_cam.image(), 9, 90, 30, 20, 2, 140)
+        return self.findBalls(self.short_distance_cam.image(), 9, 90, 40, 30, 2, 140)
 
     def findBalls(self, image, blur, min_dist, hough1, hough2, min_radius, max_radius):
         img = image
