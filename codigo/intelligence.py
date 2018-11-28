@@ -75,9 +75,9 @@ class Intelligence:
             self.avoidObstacle()
 
     def chaseRacket(self, racket):
-        if racket[0] < 0.3*self.robot.vision.long_distance_cam.resolution['width']:
+        if racket[0] < 0.25*self.robot.vision.long_distance_cam.resolution['width']:
             self.robot.mover.turn(self.turn_speed)
-        elif racket[0] > 0.7*self.robot.vision.long_distance_cam.resolution['width']:
+        elif racket[0] > 0.75*self.robot.vision.long_distance_cam.resolution['width']:
             self.robot.mover.turn(-self.turn_speed)
         else:
             self.robot.mover.moveForward(self.forward_speed)
@@ -153,9 +153,9 @@ class Intelligence:
 
     def suckCloseBall(self, close_balls):
         self.robot.sucker.suck()
-        if close_balls[0][0][0] < (0.25+(0.15*close_balls[0][0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
+        if close_balls[0][0][0] < (0.25+(0.1*close_balls[0][0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
             self.robot.mover.turn(self.turn_speed)
-        elif close_balls[0][0][0] > (0.75-(0.15*close_balls[0][0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
+        elif close_balls[0][0][0] > (0.75-(0.1*close_balls[0][0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
             self.robot.mover.turn(-self.turn_speed)
         else:
             self.robot.mover.moveForward(self.forward_speed)
@@ -175,9 +175,9 @@ class Intelligence:
                     circle = c
                 chased_distant_ball = circle
         if chased_distant_ball:
-            if chased_distant_ball[0] < 0.4*self.robot.vision.long_distance_cam.resolution['width']:
+            if chased_distant_ball[0] < 0.25*self.robot.vision.long_distance_cam.resolution['width']:
                 self.robot.mover.turn(self.turn_speed)
-            elif chased_distant_ball[0] > 0.6*self.robot.vision.long_distance_cam.resolution['width']:
+            elif chased_distant_ball[0] > 0.75*self.robot.vision.long_distance_cam.resolution['width']:
                 self.robot.mover.turn(-self.turn_speed)
             else:
                 self.robot.mover.moveForward(self.forward_speed)
