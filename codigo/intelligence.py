@@ -53,7 +53,7 @@ class Intelligence:
             sleep(1)
 
     def homeMode(self):
-        racket = self.robot.vision.findRacket(self.robot.vision.long_distance_cam.image())
+        racket = self.robot.vision.findRacket(self.robot.vision.long_distance_cam.image(), 20)
         obstacle_dist = self.robot.vision.obstacleDistance()
         if self.current_substate == 'idle':
             self.robot.mover.stop()

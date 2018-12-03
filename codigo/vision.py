@@ -39,11 +39,11 @@ class Vision():
         print(circles)
         return circles
 
-    def findRacket(self, image):
+    def findRacket(self, image, min_radius):
         img = image
         img = cv2.GaussianBlur(img, (9, 9), 0)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        img = cv2.inRange(img, (150, 50, 100),(200, 255, 255))
+        img = cv2.inRange(img, (1, 0, 0),(8, 255, 255))
         img = cv2.erode(img, (5,5))
         img = cv2.dilate(img, (5,5))
 
@@ -54,10 +54,12 @@ class Vision():
         if len(contours) > 0:
             c = max(contours, key=cv2.contourArea)
             ((x, y), radius) = cv2.minEnclosingCircle(c)
-            M = cv2.moments(c)
-            if M["m00"] and M["m00"]:
-                center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
-         
+            if radius >= min_radius:
+                M = cv2.moments(c)
+                if M["m00"] and M["m00"]:
+                    center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+            else:
+                center = None
         print('raquete: ', center)
         return center
 

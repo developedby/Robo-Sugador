@@ -3,13 +3,13 @@
 import cv2
 import time
 
-def no():
+def no(self):
     pass
 
 cam = cv2.VideoCapture()
 cam.open(0)
-cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 # cam.set(cv2.CAP_PROP_FRAME_COUNT, 1)
 
 cv2.namedWindow('sliders')
