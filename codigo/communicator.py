@@ -2,6 +2,7 @@
 
 import bluetooth
 import threading
+import os
 
 class Communicator():
     uuid = "00001101-0000-1000-8000-00805f9b34fb"
@@ -12,8 +13,11 @@ class Communicator():
 
     def __init__ (self):
         self.thread = threading.Thread(target=self.bluetoothStart, name="Bluetooth communication thread")
-        self.thread.start()
-
+        try:
+            self.thread.start()
+        except:
+            os.system('systemctl reboot')
+        
     def bluetoothStart(self):
         self.connect()
         self.receiveCommand()

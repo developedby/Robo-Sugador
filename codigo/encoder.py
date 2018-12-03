@@ -3,6 +3,7 @@
 
 import RPi.GPIO as GPIO
 from threading import Timer
+import os
 
 class Encoder :
     #log = []
@@ -15,8 +16,7 @@ class Encoder :
         self.speed_update_frequency = speed_update_frequency
         GPIO.setup(read_pin, GPIO.IN)
         GPIO.add_event_detect(read_pin, GPIO.FALLING, callback=self.countHoles)
-        self.timer = Timer(self.speed_update_frequency, self.updateSpeed)
-        self.timer.start()
+        self.startTimer(self.speed_update_frequency, self.updateSpeed)
 
     def countHoles(self, channel):
         self.counter = self.counter + 1;
@@ -24,5 +24,11 @@ class Encoder :
     def updateSpeed (self):
         self.angular_velocity = self.counter/float(self.num_holes*self.speed_update_frequency)
         self.counter = 0;
-        self.timer = Timer(self.speed_update_frequency, self.updateSpeed)
-        self.timer.start()
+        self.startTimer(self.speed_update_frequency, self.updateSpeed)
+            
+    def startTimer(self, frequency, function):
+        self.timer = Timer(frequency, function)
+        try:
+            self.timer.start()
+        except:
+            os.system('systemctl reboot')

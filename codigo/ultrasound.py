@@ -44,8 +44,9 @@ class Ultrasound ():
     def start(self):
         self.timer = Timer(0.1, self.sendTrigger)
         self.timer.start()
-
 '''
+
+
 import gpiozero
 
 class Ultrasound (gpiozero.DistanceSensor):
@@ -91,5 +92,4 @@ class Ultrasound ():
         self.distance = (StopTime - StartTime) * 171.5
         #self.timer = Timer(0.1, self.sendTrigger)
         #self.timer.start()
-
 ''' 

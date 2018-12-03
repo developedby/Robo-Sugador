@@ -148,7 +148,7 @@ class Intelligence:
         else:
             self.current_substate = 'idle'
 
-    def distance(coord1, coord2):
+    def distance(self, coord1, coord2):
         return math.hypot(coord2[0]-coord1[0], coord2[1]-coord1[1])
 
     def suckCloseBall(self, close_balls):
@@ -170,11 +170,12 @@ class Intelligence:
         else:
             min_dist = math.inf
             for c in distant_balls:
-                if distance(c, self.chased_distant_ball) < min_dist:
-                    min_dist = distance(c, self.chased_distant_ball)
+                dist = self.distance(c, self.chased_distant_ball)
+                if dist < min_dist:
+                    min_dist = dist
                     circle = c
                 self.chased_distant_ball = circle
-        if self.chased_distant_ball:
+        if self.chased_distant_ball is not None:
             if self.chased_distant_ball[0] < 0.25*self.robot.vision.long_distance_cam.resolution['width']:
                 self.robot.mover.turn(self.turn_speed)
             elif self.chased_distant_ball[0] > 0.75*self.robot.vision.long_distance_cam.resolution['width']:

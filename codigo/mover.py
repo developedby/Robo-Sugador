@@ -2,7 +2,7 @@
 
 from wheel import Wheel
 from threading import Timer
-
+import os
 
 def clamp(num, min_value, max_value):
    return max(min(num, max_value), min_value)
@@ -91,7 +91,10 @@ class Mover():
 
     def setTimer(self):
         self.speed_adjust_timer = Timer(self.speed_adjust_frequency, self.adjustSpeed)
-        self.speed_adjust_timer.start()
+        try:
+            self.speed_adjust_timer.start()
+        except:
+            os.system('systemctl reboot')
         #print('ativando timer das rodas com tempo', self.speed_adjust_frequency)
 
 
