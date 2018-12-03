@@ -129,14 +129,14 @@ class Intelligence:
     def chaseBall(self):
         close_balls = self.robot.vision.findCloseBalls()
         if close_balls is not None:
-            self.suckCloseBall(close_balls)
+            self.suckCloseBall(close_balls[0])
         obstacle_dist = self.robot.vision.obstacleDistance()
         if obstacle_dist and obstacle_dist < self.min_obstacle_distance:
             self.current_substate = 'obstacle'
         else:
             distant_balls = self.robot.vision.findDistantBalls()
             if distant_balls is not None:
-                self.chaseDistantBall(distant_balls)
+                self.chaseDistantBall(distant_balls[0])
             else:
                 self.current_substate = 'idle'
 
@@ -153,31 +153,31 @@ class Intelligence:
 
     def suckCloseBall(self, close_balls):
         self.robot.sucker.suck()
-        if close_balls[0][0][0] < (0.25+(0.1*close_balls[0][0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
+        if close_balls[0][0] < (0.25+(0.1*close_balls[0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
             self.robot.mover.turn(self.turn_speed)
-        elif close_balls[0][0][0] > (0.75-(0.1*close_balls[0][0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
+        elif close_balls[0][0] > (0.75-(0.1*close_balls[0][1]/self.robot.vision.short_distance_cam.resolution['height']))*self.robot.vision.short_distance_cam.resolution['width']:
             self.robot.mover.turn(-self.turn_speed)
         else:
             self.robot.mover.moveForward(self.forward_speed)
 
     def chaseDistantBall(self, distant_balls):
-        if not chased_distant_ball:
+        if self.chased_distant_ball is None:
             max_radius = -1
             for c in distant_balls:
                 if c[2] > max_radius:
                     max_radius = c[2]
-                    chased_distant_ball = c
+                    self.chased_distant_ball = c
         else:
             min_dist = math.inf
             for c in distant_balls:
-                if distance(c, chased_distant_ball) < min_dist:
-                    min_dist = distance(c, chased_distant_ball)
+                if distance(c, self.chased_distant_ball) < min_dist:
+                    min_dist = distance(c, self.chased_distant_ball)
                     circle = c
-                chased_distant_ball = circle
-        if chased_distant_ball:
-            if chased_distant_ball[0] < 0.25*self.robot.vision.long_distance_cam.resolution['width']:
+                self.chased_distant_ball = circle
+        if self.chased_distant_ball:
+            if self.chased_distant_ball[0] < 0.25*self.robot.vision.long_distance_cam.resolution['width']:
                 self.robot.mover.turn(self.turn_speed)
-            elif chased_distant_ball[0] > 0.75*self.robot.vision.long_distance_cam.resolution['width']:
+            elif self.chased_distant_ball[0] > 0.75*self.robot.vision.long_distance_cam.resolution['width']:
                 self.robot.mover.turn(-self.turn_speed)
             else:
                 self.robot.mover.moveForward(self.forward_speed)
