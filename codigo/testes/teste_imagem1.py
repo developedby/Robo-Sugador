@@ -1,16 +1,19 @@
 # Teste1 - Versao que vai ser usada no final, Hough transform
 
-
 import cv2
 import numpy as np
 import time
+from os.path import realpath
 
 def no():
     pass
 
+long_port = (int)(realpath('/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_969829FF-video-index0')[-1])
+short_port = (int)(realpath('/dev/v4l/by-id/usb-046d_Camera-video-index0')[-1])
+
 cam = cv2.VideoCapture()
-cam.open('/dev/v4l/by-id/usb-046d_Camera-video-index0')
-#cam.open('/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_969829FF-video-index0')
+#cam.open(long_port)
+cam.open(short_port)
 #cam.set(cv2.CAP_PROP_FRAME_WIDTH, 500)
 #cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 500)
 cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
