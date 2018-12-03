@@ -5,10 +5,10 @@ from time import sleep
 
 class Intelligence:
 
-    manual_mode_speed = 2
+    manual_mode_speed = 1
     min_obstacle_distance = 0.5 # Nao chega mais perto de obstaculos que essa distancia (tem que setar pra distancia max que a camera de perto enxerga)
     turn_speed = 1
-    forward_speed = 2
+    forward_speed = 1
     def __init__ (self, robot):
         self.robot = robot
         self.current_state = 'sleep'
