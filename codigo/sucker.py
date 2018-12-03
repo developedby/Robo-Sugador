@@ -7,7 +7,7 @@ from threading import Thread
 import os
 
 class Sucker:
-    suck_period = 3
+    suck_period = 5
     def __init__ (self, infrared_pin, fan_input1_pin, fan_input2_pin, cover_pin, cover_initial_angle, cover_min_angle, cover_max_angle, closed_angle , open_angle):
         self.cover = Cover(cover_pin, cover_initial_angle, cover_min_angle, cover_max_angle, closed_angle, open_angle)
         self.fan = Fan(fan_input1_pin, fan_input2_pin)

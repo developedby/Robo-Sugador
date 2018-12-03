@@ -98,7 +98,7 @@ class Intelligence:
                     self.current_substate = 'obstacle'
             else:
                 self.robot.mover.moveForward(self.forward_speed)
-                self.robot.sucker.close()
+                #self.robot.sucker.close()
                 balls = self.robot.vision.findDistantBalls()
                 if balls is not None:
                     self.current_substate = 'chasing'
@@ -113,7 +113,7 @@ class Intelligence:
 
         if self.current_substate == 'idle':
             self.robot.mover.stop()
-            self.robot.sucker.close()
+            #self.robot.sucker.close()
             obstacle_dist = self.robot.vision.obstacleDistance()
             if obstacle_dist and obstacle_dist < self.min_obstacle_distance:
                     self.current_substate = 'obstacle'
@@ -184,8 +184,9 @@ class Intelligence:
                 self.robot.mover.moveForward(self.forward_speed)
 
     def shutdownMode(self):
-        self.robot.sucker.close()
+        self.robot.sucker.deactivate()
         self.robot.mover.stop()
+        self.robot.vision.close()
         system('systemctl poweroff')
 
     def executeCurrentState(self):
