@@ -1,4 +1,4 @@
-		r# mover.py - o movimentador do robo, cuida de andar pra frente, para tras e para os lados
+# mover.py - o movimentador do robo, cuida de andar pra frente, para tras e para os lados
 
 from wheel import Wheel
 from threading import Timer
