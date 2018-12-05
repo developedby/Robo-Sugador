@@ -9,7 +9,7 @@ def clamp(num, min_value, max_value):
 
 class Mover():
     speed_adjust_frequency = 0.1
-    wheel_initial_forward_speed = (40, 60)
+    wheel_initial_forward_speed = (0, 0)
     wheel_initial_turn_speed = 50
 
     def __init__ (self, input1_a_pin, input2_a_pin, pwm_a_pin, encoder_a_pin, num_a_holes, input1_b_pin, input2_b_pin, pwm_b_pin, encoder_b_pin, num_b_holes, speed_adjust_delta):
