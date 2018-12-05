@@ -41,8 +41,8 @@ class Mover():
         elif self.right_wheel.encoder.angular_velocity < abs(self.right_wheel_required_speed):
             self.right_wheel_sent_speed += self.speed_adjust_delta
 
-        self.left_wheel_sent_speed = self.sign(left_wheel_required_speed)*clamp(self.left_wheel_sent_speed, 0, 99)
-        self.right_wheel_sent_speed = self.sign(right_wheel_required_speed)*clamp(self.right_wheel_sent_speed, 0, 99)
+        self.left_wheel_sent_speed = self.sign(self.left_wheel_required_speed)*clamp(self.left_wheel_sent_speed, 0, 99)
+        self.right_wheel_sent_speed = self.sign(self.right_wheel_required_speed)*clamp(self.right_wheel_sent_speed, 0, 99)
         self.left_wheel.spin(self.left_wheel_sent_speed)
         self.right_wheel.spin(self.right_wheel_sent_speed)
 
