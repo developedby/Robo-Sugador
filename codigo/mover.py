@@ -32,14 +32,14 @@ class Mover():
                 self.wheel_initial_forward_speed = (self.right_wheel_sent_speed, self.left_wheel_sent_speed)
 
         if self.left_wheel.encoder.angular_velocity > abs(self.left_wheel_required_speed):
-            self.left_wheel_sent_speed -= self.speed_adjust_delta
+            self.left_wheel_sent_speed -= self.sign(self.left_wheel_required_speed)*self.speed_adjust_delta
         elif self.left_wheel.encoder.angular_velocity < abs(self.left_wheel_required_speed):
-            self.left_wheel_sent_speed += self.speed_adjust_delta
+            self.left_wheel_sent_speed += self.sign(self.left_wheel_required_speed)*self.speed_adjust_delta
 
         if self.right_wheel.encoder.angular_velocity > abs(self.right_wheel_required_speed):
-            self.right_wheel_sent_speed -= self.speed_adjust_delta
+            self.right_wheel_sent_speed -= self.sign(self.right_wheel_required_speed)*self.speed_adjust_delta
         elif self.right_wheel.encoder.angular_velocity < abs(self.right_wheel_required_speed):
-            self.right_wheel_sent_speed += self.speed_adjust_delta
+            self.right_wheel_sent_speed += self.sign(self.right_wheel_required_speed)*self.speed_adjust_delta
 
         self.left_wheel_sent_speed = self.sign(self.left_wheel_required_speed)*clamp(self.left_wheel_sent_speed, 0, 99)
         self.right_wheel_sent_speed = self.sign(self.right_wheel_required_speed)*clamp(self.right_wheel_sent_speed, 0, 99)
