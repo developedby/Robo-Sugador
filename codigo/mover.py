@@ -1,4 +1,4 @@
-# mover.py - o movimentador do robo, cuida de andar pra frente, para tras e para os lados
+		r# mover.py - o movimentador do robo, cuida de andar pra frente, para tras e para os lados
 
 from wheel import Wheel
 from threading import Timer
@@ -10,8 +10,8 @@ def clamp(num, min_value, max_value):
 class Mover():
     #sign = lambda x: x and (1, -1)[x < 0]
     speed_adjust_frequency = 0.1
-    wheel_forward_initial_speed = 50
-    wheel_turn_initial_speed = 99
+    wheel_initial_forward_speed = 50
+    wheel_initial_turn_speed = 99
 
     def __init__ (self, input1_a_pin, input2_a_pin, pwm_a_pin, encoder_a_pin, num_a_holes, input1_b_pin, input2_b_pin, pwm_b_pin, encoder_b_pin, num_b_holes, speed_adjust_delta):
         self.left_wheel = Wheel(input1_a_pin, input2_a_pin, pwm_a_pin, encoder_a_pin, num_a_holes, self.speed_adjust_frequency)
@@ -54,8 +54,8 @@ class Mover():
     def moveForward(self, speed):
         self.left_wheel_required_speed = speed
         self.right_wheel_required_speed = speed
-        self.left_wheel_sent_speed = self.sign(speed)*self.wheel_forward_initial_speed
-        self.right_wheel_sent_speed = self.sign(speed)*self.wheel_forward_initial_speed
+        self.left_wheel_sent_speed = self.sign(speed)*self.wheel_initial_forward_speed
+        self.right_wheel_sent_speed = self.sign(speed)*self.wheel_initial_forward_speed
         self.left_wheel.spin(self.left_wheel_sent_speed)
         self.right_wheel.spin(self.right_wheel_sent_speed)
 
@@ -67,8 +67,8 @@ class Mover():
     def turn(self, speed): # usando sentido positivo: antihorario
         self.left_wheel_required_speed = -speed
         self.right_wheel_required_speed = speed
-        self.left_wheel_sent_speed = -self.sign(speed)*self.wheel_turn_initial_speed
-        self.right_wheel_sent_speed = self.sign(speed)*self.wheel_turn_initial_speed
+        self.left_wheel_sent_speed = -self.sign(speed)*self.wheel_initial_turn_speed
+        self.right_wheel_sent_speed = self.sign(speed)*self.wheel_initial_turn_speed
 
         print("Girando com vel", speed)
 
