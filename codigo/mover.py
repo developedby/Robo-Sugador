@@ -25,7 +25,7 @@ class Mover():
 
 
     def adjustSpeed(self):
-        if sign(self.left_wheel_required_speed) == sign(self.right_wheel_required_speed):
+        if self.sign(self.left_wheel_required_speed) == self.sign(self.right_wheel_required_speed):
             if self.left_wheel_required_speed > 0:
                 self.wheel_initial_forward_speed = (self.left_wheel_sent_speed, self.right_wheel_sent_speed)
             else:
