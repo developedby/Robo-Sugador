@@ -23,7 +23,6 @@ class Encoder :
 
     def updateSpeed (self):
         self.angular_velocity = self.counter/float(self.num_holes*self.speed_update_frequency)
-        print(self.angular_velocity)
         self.counter = 0;
         self.startTimer(self.speed_update_frequency, self.updateSpeed)
 

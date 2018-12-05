@@ -13,8 +13,8 @@ class Mover():
     wheel_initial_turn_speed = 50
 
     def __init__ (self, input1_a_pin, input2_a_pin, pwm_a_pin, encoder_a_pin, num_a_holes, input1_b_pin, input2_b_pin, pwm_b_pin, encoder_b_pin, num_b_holes, speed_adjust_delta):
-        self.left_wheel = Wheel(input1_a_pin, input2_a_pin, pwm_a_pin, encoder_a_pin, num_a_holes, self.speed_adjust_frequency)
-        self.right_wheel = Wheel(input1_b_pin, input2_b_pin, pwm_b_pin, encoder_b_pin, num_b_holes, self.speed_adjust_frequency)
+        self.left_wheel = Wheel(input1_a_pin, input2_a_pin, pwm_a_pin, encoder_a_pin, num_a_holes, .9*self.speed_adjust_frequency)
+        self.right_wheel = Wheel(input1_b_pin, input2_b_pin, pwm_b_pin, encoder_b_pin, num_b_holes, .9*self.speed_adjust_frequency)
         self.left_wheel_sent_speed = None               # velocidade enviada a roda, em % do pwm
         self.right_wheel_sent_speed = None
         self.left_wheel_required_speed = None           # velocidade desejada, em graus por segundo
@@ -47,11 +47,11 @@ class Mover():
         self.right_wheel.spin(self.right_wheel_sent_speed)
 
         #print("Vel desejada roda direita:", self.right_wheel_required_speed)
-        #print("Vel lida na roda direita:", self.sign(self.right_wheel_required_speed) * self.right_wheel.encoder.angular_velocity)
+        print("Vel lida na roda direita:", self.sign(self.right_wheel_required_speed) * self.right_wheel.encoder.angular_velocity)
         #print("Escrevendo roda direita:", self.right_wheel_sent_speed)
 
         #print("Vel desejada roda esquerda:", self.left_wheel_required_speed)
-        #print("Vel lida na roda esquerda:", self.sign(self.left_wheel_required_speed) * self.left_wheel.encoder.angular_velocity)
+        print("Vel lida na roda esquerda:", self.sign(self.left_wheel_required_speed) * self.left_wheel.encoder.angular_velocity)
         #print("Escrevendo roda esquerda:", self.left_wheel_sent_speed)
 
         self.setTimer()
