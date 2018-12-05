@@ -85,7 +85,7 @@ class Intelligence:
     def dropBall(self):
             self.robot.sucker.drop()
             self.robot.mover.stop()
-            sleep(2)
+            sleep(3)
             self.robot.sucker.close()
 
     def patrolMode(self):
@@ -113,12 +113,14 @@ class Intelligence:
 
         if self.current_substate == 'idle':
             self.robot.mover.stop()
-            #self.robot.sucker.close()
             obstacle_dist = self.robot.vision.obstacleDistance()
             if obstacle_dist and obstacle_dist < self.min_obstacle_distance:
                     self.current_substate = 'obstacle'
             else:
                 balls = self.robot.vision.findDistantBalls()
+                if balls is not None:
+                    self.current_substate = 'chasing'
+                balls = self.robot.vision.findCloseBalls()
                 if balls is not None:
                     self.current_substate = 'chasing'
         elif self.current_substate == 'chasing':
@@ -130,15 +132,16 @@ class Intelligence:
         close_balls = self.robot.vision.findCloseBalls()
         if close_balls is not None:
             self.suckCloseBall(close_balls[0])
-        obstacle_dist = self.robot.vision.obstacleDistance()
-        if obstacle_dist and obstacle_dist < self.min_obstacle_distance:
-            self.current_substate = 'obstacle'
         else:
-            distant_balls = self.robot.vision.findDistantBalls()
-            if distant_balls is not None:
-                self.chaseDistantBall(distant_balls[0])
+            obstacle_dist = self.robot.vision.obstacleDistance()
+            if obstacle_dist and obstacle_dist < self.min_obstacle_distance:
+                self.current_substate = 'obstacle'
             else:
-                self.current_substate = 'idle'
+                distant_balls = self.robot.vision.findDistantBalls()
+                if distant_balls is not None:
+                    self.chaseDistantBall(distant_balls[0])
+                else:
+                    self.current_substate = 'idle'
 
     def avoidObstacle(self):
         obstacle_dist = self.robot.vision.obstacleDistance()

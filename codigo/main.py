@@ -27,14 +27,14 @@ right_wheel_input2_pin = 24
 right_wheel_pwm_pin = 18
 right_wheel_encoder_pin = 5
 right_wheel_encoder_num_holes = 20
-speed_adjust_delta = 3
+speed_adjust_delta = 2
 infrared_pin = 22
 fan_input1_pin = 10
 fan_input2_pin = 9
 cover_pin = 12
 servo_min_angle = 0
 servo_max_angle = 180
-cover_closed_angle = 25 # Medida mais ou menos certa
+cover_closed_angle = 40 # Medida mais ou menos certa
 cover_open_angle = 10
 servo_initial_angle = 22#(cover_closed_angle + cover_open_angle)/2 - Não, tem que iniciar fechado
 
